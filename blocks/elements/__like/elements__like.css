@@ -1,0 +1,8 @@
+.elements__like {
+    object-fit: contain;
+}
+
+.elements__like:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}

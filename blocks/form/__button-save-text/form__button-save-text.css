@@ -1,0 +1,12 @@
+.form__button-save-text {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: auto;
+}
+
+@media screen and (max-width: 700px) {
+  .form__button-save-text {
+    font-size: 14px;
+  }
+}

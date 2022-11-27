@@ -1,0 +1,10 @@
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  color: #FFFFFF;
+}

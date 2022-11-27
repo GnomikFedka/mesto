@@ -1,0 +1,17 @@
+.form__close-button {
+  border: none;
+  align-self: flex-end;
+  margin-bottom: 8px;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0;
+}
+
+.form__close-button:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .form__close-button {
+    margin-bottom: 16px;
+  }
+}
