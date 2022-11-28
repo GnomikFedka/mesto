@@ -1,13 +1,14 @@
 let likes = document.querySelectorAll('.elements__like');
 let typeoflikes = document.querySelectorAll('.elements__button-like');
 let edit = document.querySelector('.profile__edit-button');
-let form = document.querySelector('.form');
-let closed = document.querySelector('.form__close-button');
+let popup = document.querySelector('.popup');
+let closed = document.querySelector('.popup__close-button');
 let named = document.querySelector('.profile__name');
-let fieldofactiviry = document.querySelector('.profile__field-of-activity');
-let inputname = document.querySelector('.form__input-name');
-let inputfieldofactiviry = document.querySelector('.form__input-field-of-activity');
-let saved = document.querySelector('.form__button-save');
+let fieldofactivity = document.querySelector('.profile__field-of-activity');
+let inputname = document.querySelector('.popup__input_name');
+let inputfieldofactivity = document.querySelector('.popup__input_field-of-activity');
+let input = document.querySelector('.popup__input');
+let saved = document.querySelector('.popup__button-save');
 let page = document.querySelector('.page');
 let plus = document.querySelector('.profile__add-button');
 let i = 0;
@@ -25,10 +26,9 @@ for (i = 0; i <= likes.length - 1; i++) {
 
 edit.addEventListener('click', visual);
 function visual() {
-  form.setAttribute('style', 'display: flex');
   inputname.value = named.innerText;
-  inputfieldofactiviry.value = fieldofactiviry.innerText;
-  page.setAttribute('style', 'opacity: 0.5');
+  inputfieldofactivity.value = fieldofactivity.innerText;
+  popup.classList.add('popup_opened');
   edit.setAttribute('disabled', 'disabled');
   for (i = 0; i <= likes.length - 1; i++) {
     typeoflikes[i].setAttribute('disabled', 'disabled');
@@ -38,8 +38,7 @@ function visual() {
 
 closed.addEventListener('click', unvisual);
 function unvisual() {
-  form.setAttribute('style', 'display: none');
-  page.setAttribute('style', 'opacity: 1');
+  popup.classList.remove('popup_opened');
   edit.removeAttribute('disabled');
   for (i = 0; i <= likes.length - 1; i++) {
     typeoflikes[i].removeAttribute('disabled');
@@ -49,10 +48,9 @@ function unvisual() {
 
 saved.addEventListener('click', saving);
 function saving() {
-  form.setAttribute('style', 'display: none');
   named.innerText = inputname.value;
-  fieldofactiviry.innerText = inputfieldofactiviry.value;
-  page.setAttribute('style', 'opacity: 1');
+  fieldofactivity.innerText = inputfieldofactivity.value;
+  popup.classList.remove('popup_opened');
   edit.removeAttribute('disabled');
   for (i = 0; i <= likes.length - 1; i++) {
     typeoflikes[i].removeAttribute('disabled');
@@ -64,11 +62,10 @@ document.addEventListener('keyup', savingenter);
 
 function savingenter(event) {
   if (event.key === 'Enter') {
-    if (form.getAttribute('style', 'display') === 'display: flex') {
-      form.setAttribute('style', 'display: none');
+    if (popup.classList.contains('popup_opened') === true) {
       named.innerText = inputname.value;
-      fieldofactiviry.innerText = inputfieldofactiviry.value;
-      page.setAttribute('style', 'opacity: 1');
+      fieldofactivity.innerText = inputfieldofactivity.value;
+      popup.classList.remove('popup_opened');
       edit.removeAttribute('disabled');
       for (i = 0; i <= likes.length - 1; i++) {
         typeoflikes[i].removeAttribute('disabled');

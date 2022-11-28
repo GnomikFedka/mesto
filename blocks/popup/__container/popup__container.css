@@ -1,4 +1,4 @@
-.form {
+.popup__container {
   position: fixed;
   left: 50%;
   top: 50%;
@@ -6,15 +6,14 @@
   margin-top: -212px;
   width: 470px;
   height: 370px;
-  background-color: rgba(0, 0, 0, 0);
-  color: #000000;
-  display: none;
+  color: #FFFFFF;
+  display: flex;
   flex-direction: column;
   z-index: 3;
 }
 
 @media screen and (max-width: 700px) {
-  .form {
+  .popup__container {
     margin-left: -141px;
     margin-top: -265px;
     width: 282px;
