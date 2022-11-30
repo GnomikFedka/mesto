@@ -10,96 +10,98 @@
 
 <body>
   <div class="page">
-    <div class="popup">
-      <div class="popup__container">
-        <button class="popup__close-button">
-          <img class="popup__close-icon" src="images/CloseIcon.svg" alt="белый крестик">
-        </button>
-        <div class="popup__edit-form">
-          <h1 class="popup__title">Редактировать профиль</h1>
-          <input class="popup__input popup__input_name">
-          <input class="popup__input popup__input_field-of-activity">
-          <button type="submit" class="popup__button-save">Сохранить</button>
-        </div>
-      </div>
-    </div>
-    <section class="header">
+    <header class="header">
       <img class="header__logo" src="images/Vector.svg" alt="логотип Место Россия">
-      <img class="header__line" src="images/Line.png" alt="белая линия">
-    </section>
-    <section class="profile">
-      <img class="profile__avatar" src="images/Avatar.png" alt="аватарка пользователя">
-      <div class="profile__profile-info">
-        <h1 class="profile__name">Жак-Ив Кусто</h1>
-        <button class="profile__edit-button">
-          <img class="profile__pen" src="images/pen.png" alt="белая ручка">
+    </header>
+    <main>
+      <section class="profile">
+        <img class="profile__avatar" src="images/Avatar.png" alt="аватарка пользователя">
+        <div class="profile__profile-info">
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <button type="button" class="profile__edit-button">
+            <img class="profile__pen" src="images/pen.svg" alt="белая ручка">
+          </button>
+          <p class="profile__field-of-activity">Исследователь океана</p>
+        </div>
+        <button type="button" class="profile__add-button">
+          <img class="profile__plus" src="images/plus.svg" alt="знак плюс">
         </button>
-        <p class="profile__field-of-activity">Исследователь океана</p>
-      </div>
-      <button class="profile__add-button">
-        <img class="profile__plus" src="images/Plus.png" alt="знак плюс">
-      </button>
-    </section>
-    <section class="elements">
-      <div class="elements__element">
-        <img class="elements__mask-group" src="images/LaucaNationalPark.jpg" alt="серая машина и горы в пустыне">
-        <div class="elements__text-like">
-          <p class="elements__text">Национальный парк Лаука</p>
-          <button class="elements__button-like">
-            <img class="elements__like" src="images/like.svg" alt="значок лайка">
-          </button>
+      </section>
+      <section class="elements">
+        <div class="elements__element">
+          <img class="elements__mask-group" src="images/LaucaNationalPark.jpg" alt="серая машина и горы в пустыне">
+          <div class="elements__text-like">
+            <h2 class="elements__text">Национальный парк Лаука</h2>
+            <button type="button" class="elements__button-like">
+              <img class="elements__like" src="images/like.svg" alt="значок лайка">
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__mask-group" src="images/fuji.jpg" alt="Вулкан Фудзияма">
-        <div class="elements__text-like">
-          <p class="elements__text">Вулкан Фудзияма</p>
-          <button class="elements__button-like">
-            <img class="elements__like" src="images/like.svg" alt="значок лайка">
-          </button>
+        <div class="elements__element">
+          <img class="elements__mask-group" src="images/fuji.jpg" alt="Вулкан Фудзияма">
+          <div class="elements__text-like">
+            <h2 class="elements__text">Вулкан Фудзияма</h2>
+            <button type="button" class="elements__button-like">
+              <img class="elements__like" src="images/like.svg" alt="значок лайка">
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__mask-group" src="images/grand_canyon.jpg" alt="Большой Каньон">
-        <div class="elements__text-like">
-          <p class="elements__text">Большой Каньон</p>
-          <button class="elements__button-like">
-            <img class="elements__like" src="images/like.svg" alt="значок лайка">
-          </button>
+        <div class="elements__element">
+          <img class="elements__mask-group" src="images/grand_canyon.jpg" alt="Большой Каньон">
+          <div class="elements__text-like">
+            <h2 class="elements__text">Большой Каньон</h2>
+            <button type="button" class="elements__button-like">
+              <img class="elements__like" src="images/like.svg" alt="значок лайка">
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__mask-group" src="images/notr_dam.jpg" alt="Собор Парижской Богоматери">
-        <div class="elements__text-like">
-          <p class="elements__text">Собор Парижской Богоматери</p>
-          <button class="elements__button-like">
-            <img class="elements__like" src="images/like.svg" alt="значок лайка">
-          </button>
+        <div class="elements__element">
+          <img class="elements__mask-group" src="images/notr_dam.jpg" alt="Собор Парижской Богоматери">
+          <div class="elements__text-like">
+            <h2 class="elements__text">Собор Парижской Богоматери</h2>
+            <button type="button" class="elements__button-like">
+              <img class="elements__like" src="images/like.svg" alt="значок лайка">
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__mask-group" src="images/sevan_lake.jpg" alt="Озеро Севан">
-        <div class="elements__text-like">
-          <p class="elements__text">Озеро Севан</p>
-          <button class="elements__button-like">
-            <img class="elements__like" src="images/like.svg" alt="значок лайка">
-          </button>
+        <div class="elements__element">
+          <img class="elements__mask-group" src="images/sevan_lake.jpg" alt="Озеро Севан">
+          <div class="elements__text-like">
+            <h2 class="elements__text">Озеро Севан</h2>
+            <button type="button" class="elements__button-like">
+              <img class="elements__like" src="images/like.svg" alt="значок лайка">
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="elements__element">
-        <img class="elements__mask-group" src="images/great_wall.jpg" alt="Великая Китайская стена">
-        <div class="elements__text-like">
-          <p class="elements__text">Великая Китайская стена</p>
-          <button class="elements__button-like">
-            <img class="elements__like" src="images/like.svg" alt="значок лайка">
-          </button>
+        <div class="elements__element">
+          <img class="elements__mask-group" src="images/great_wall.jpg" alt="Великая Китайская стена">
+          <div class="elements__text-like">
+            <h2 class="elements__text">Великая Китайская стена</h2>
+            <button type="button" class="elements__button-like">
+              <img class="elements__like" src="images/like.svg" alt="значок лайка">
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
-    <section class="footer">
+      </section>
+    </main>
+    <footer class="footer">
       <p class="footer__text">© 2020 Mesto Russia</p>
-    </section>
+    </footer>
+  </div>
+  <div class="popup">
+    <div class="popup__container">
+      <button type="button" class="popup__close-button">
+        <img class="popup__close-icon" src="images/CloseIcon.svg" alt="белый крестик">
+      </button>
+      <form class="popup__edit-form" name="edit-form">
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <input class="popup__input popup__input_type_name" name="name">
+        <input class="popup__input popup__input_type_field-of-activity" name="fieldOfActivity">
+        <button type="submit" class="popup__button-save">Сохранить</button>
+      </form>
+    </div>
   </div>
   <script src="scripts/script.js"></script>
 </body>
+
 </html>

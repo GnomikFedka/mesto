@@ -1,76 +1,29 @@
-let likes = document.querySelectorAll('.elements__like');
-let typeoflikes = document.querySelectorAll('.elements__button-like');
-let edit = document.querySelector('.profile__edit-button');
+let editButton = document.querySelector('.profile__edit-button');
 let popup = document.querySelector('.popup');
-let closed = document.querySelector('.popup__close-button');
-let named = document.querySelector('.profile__name');
-let fieldofactivity = document.querySelector('.profile__field-of-activity');
-let inputname = document.querySelector('.popup__input_name');
-let inputfieldofactivity = document.querySelector('.popup__input_field-of-activity');
-let input = document.querySelector('.popup__input');
-let saved = document.querySelector('.popup__button-save');
-let page = document.querySelector('.page');
-let plus = document.querySelector('.profile__add-button');
-let i = 0;
+let closeButton = document.querySelector('.popup__close-button');
+let nameOfResearcher = document.querySelector('.profile__name');
+let fieldOfActivity = document.querySelector('.profile__field-of-activity');
+let inputOfResearcher = document.querySelector('.popup__input_type_name');
+let inputFieldOfActivity = document.querySelector('.popup__input_type_field-of-activity');
+let formData = document.querySelector('.popup__edit-form');
 
-for (i = 0; i <= likes.length - 1; i++) {
-  (function (i) {
-    typeoflikes[i].addEventListener('click', function () {
-      if (likes[i].src.charAt(likes[i].src.length - 9) === '/') {
-        likes[i].setAttribute('src', 'images/darklike.svg');
-      }
-      else likes[i].setAttribute('src', 'images/like.svg');
-    })
-  })(i);
-}
-
-edit.addEventListener('click', visual);
-function visual() {
-  inputname.value = named.innerText;
-  inputfieldofactivity.value = fieldofactivity.innerText;
+function openPopup() {
+  inputOfResearcher.value = nameOfResearcher.innerText;
+  inputFieldOfActivity.value = fieldOfActivity.innerText;
   popup.classList.add('popup_opened');
-  edit.setAttribute('disabled', 'disabled');
-  for (i = 0; i <= likes.length - 1; i++) {
-    typeoflikes[i].setAttribute('disabled', 'disabled');
-  }
-  plus.setAttribute('disabled', 'disabled');
 }
 
-closed.addEventListener('click', unvisual);
-function unvisual() {
+function closePopup() {
   popup.classList.remove('popup_opened');
-  edit.removeAttribute('disabled');
-  for (i = 0; i <= likes.length - 1; i++) {
-    typeoflikes[i].removeAttribute('disabled');
-  }
-  plus.removeAttribute('disabled');
 }
 
-saved.addEventListener('click', saving);
-function saving() {
-  named.innerText = inputname.value;
-  fieldofactivity.innerText = inputfieldofactivity.value;
-  popup.classList.remove('popup_opened');
-  edit.removeAttribute('disabled');
-  for (i = 0; i <= likes.length - 1; i++) {
-    typeoflikes[i].removeAttribute('disabled');
-  }
-  plus.removeAttribute('disabled');
+function saveNameAndFieldOfActivity(event) {
+  event.preventDefault();
+  nameOfResearcher.innerText = inputOfResearcher.value;
+  fieldOfActivity.innerText = inputFieldOfActivity.value;
+  closePopup();
 }
 
-document.addEventListener('keyup', savingenter);
-
-function savingenter(event) {
-  if (event.key === 'Enter') {
-    if (popup.classList.contains('popup_opened') === true) {
-      named.innerText = inputname.value;
-      fieldofactivity.innerText = inputfieldofactivity.value;
-      popup.classList.remove('popup_opened');
-      edit.removeAttribute('disabled');
-      for (i = 0; i <= likes.length - 1; i++) {
-        typeoflikes[i].removeAttribute('disabled');
-      }
-      plus.removeAttribute('disabled');
-    }
-  }
-}
+editButton.addEventListener('click', openPopup);
+closeButton.addEventListener('click', closePopup);
+formData.addEventListener('submit', saveNameAndFieldOfActivity);

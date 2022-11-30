@@ -3,10 +3,11 @@
   height: 50px;
   background-color: #000000;
   border-color: #FFFFFF;
+  border-radius: 2px;
   align-self: center;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: s1000px) {
   .profile__add-button {
     width: 100px;
   }

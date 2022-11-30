@@ -1,4 +1,8 @@
 .elements__button-like {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
     border: none;
     background-color: #FFFFFF;
     width: 22px;
