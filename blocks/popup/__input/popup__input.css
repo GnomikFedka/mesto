@@ -1,8 +1,8 @@
 .popup__input {
-  border-top: 2px solid #FFFFFF;
-  border-right: 2px solid #FFFFFF;
-  border-left: 2px solid #FFFFFF;
-  border-bottom: 2px solid rgba(000000, 000000, 000000, 0.2);
+  border-top: 1px solid #FFFFFF;
+  border-right: 1px solid #FFFFFF;
+  border-left: 1px solid #FFFFFF;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   background: transparent;
   width: 358px;
   font-family: 'Inter', Arial, Helvetica, sans-serif;
@@ -18,8 +18,8 @@ form input.popup__input:last-of-type {
 }
 
 .popup__input:focus { 
-  outline: 2px solid blue;
-  border: 2px solid #FFFFFF;
+  outline: 1px solid blue;
+  border: 1px solid #FFFFFF;
 }
 
 @media screen and (max-width: 700px) {
