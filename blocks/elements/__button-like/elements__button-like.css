@@ -7,4 +7,11 @@
     background-color: #FFFFFF;
     width: 22px;
     height: 19px;
+    background-image: url(../../../images/like.svg);
+    margin: 25px 18px 31px 30px;
+}
+
+.elements__button-like:hover {
+    opacity: 0.5;
+    cursor: pointer;
 }
