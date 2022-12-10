@@ -3,16 +3,16 @@ const addButton = document.querySelector('.profile__add-button');
 const popupNameFieldOfActivity = document.querySelector('.popup_name-field-of-activity');
 const popupNewElement = document.querySelector('.popup_new-element');
 const popupMesto = document.querySelector('.popup_foto-mesto');
-const closeButton = document.querySelectorAll('.popup__close-button');
+const closeButtons = document.querySelectorAll('.popup__close-button');
 const elementsArray = document.querySelector('.elements');
 const elements = elementsArray.querySelectorAll('.elements__element');
 const formData = document.querySelectorAll('.popup__edit-form');
-let nameOfResearcher = document.querySelector('.profile__name');
-let fieldOfActivity = document.querySelector('.profile__field-of-activity');
-let inputOfResearcher = popupNameFieldOfActivity.querySelector('.popup__input_type_name');
-let inputFieldOfActivity = popupNameFieldOfActivity.querySelector('.popup__input_type_field-of-activity');
-let placeName = popupNewElement.querySelector('.popup__input_type_name');
-let placeURL = popupNewElement.querySelector('.popup__input_type_field-of-activity');
+const nameOfResearcher = document.querySelector('.profile__name');
+const fieldOfActivity = document.querySelector('.profile__field-of-activity');
+const inputOfResearcher = popupNameFieldOfActivity.querySelector('.popup__input_type_name');
+const inputFieldOfActivity = popupNameFieldOfActivity.querySelector('.popup__input_type_field-of-activity');
+const placeName = popupNewElement.querySelector('.popup__input_type_name');
+const placeURL = popupNewElement.querySelector('.popup__input_type_field-of-activity');
 const initialCards = [
   {
     name: 'Собор Парижской Богоматери',
@@ -45,6 +45,7 @@ function saveFotoAndURL(fotoName, imageURL) {
   const elementTemplate = document.querySelector('#element').content;
   const newElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
   newElement.querySelector('.elements__mask-group').src = imageURL;
+  newElement.querySelector('.elements__mask-group').alt = fotoName;
   newElement.querySelector('.elements__text').textContent = fotoName;
   elementsArray.prepend(newElement);
   newElement.querySelector('.elements__button-like').addEventListener('click', function (evt) {
@@ -54,7 +55,8 @@ function saveFotoAndURL(fotoName, imageURL) {
     evt.target.parentElement.remove(); 
   });
   newElement.querySelector('.elements__button-open-foto').addEventListener('click', function (evt) {
-    popupMesto.querySelector('.popup__foto').src = evt.target.parentElement.querySelector('.elements__mask-group').src; 
+    popupMesto.querySelector('.popup__foto').src = evt.target.parentElement.querySelector('.elements__mask-group').src;
+    popupMesto.querySelector('.popup__foto').alt = evt.target.parentElement.querySelector('.elements__text').textContent;
     popupMesto.querySelector('.popup__text').textContent = evt.target.parentElement.querySelector('.elements__text').textContent;
     openPopup(popupMesto);
   });
@@ -65,6 +67,7 @@ elements.forEach(function(currentValue, index) {
     evt.target.classList.toggle('elements__button-like_active');
   });
   currentValue.querySelector('.elements__mask-group').src = initialCards[index].link;
+  currentValue.querySelector('.elements__mask-group').alt = initialCards[index].name;
   currentValue.querySelector('.elements__text').textContent = initialCards[index].name;
 }); 
 
@@ -120,7 +123,7 @@ elements.forEach(function(currentValue) {
 elements.forEach(function(currentValue) {
   currentValue.querySelector('.elements__button-open-foto').addEventListener('click', openPopupMesto);
 });
-closeButton.forEach(function(currentValue) {
+closeButtons.forEach(function(currentValue) {
   currentValue.addEventListener('click', closePopup);
 });
 formData.forEach(function(currentValue) {
