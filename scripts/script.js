@@ -1,18 +1,19 @@
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-const popupNameFieldOfActivity = document.querySelector('.popup_name-field-of-activity');
+const popupActivityFieldName = document.querySelector('.popup_name-field-of-activity');
 const popupNewElement = document.querySelector('.popup_new-element');
 const popupMesto = document.querySelector('.popup_foto-mesto');
 const closeButtons = document.querySelectorAll('.popup__close-button');
 const elementsArray = document.querySelector('.elements');
-const elements = elementsArray.querySelectorAll('.elements__element');
-const formData = document.querySelectorAll('.popup__edit-form');
-const nameOfResearcher = document.querySelector('.profile__name');
-const fieldOfActivity = document.querySelector('.profile__field-of-activity');
-const inputOfResearcher = popupNameFieldOfActivity.querySelector('.popup__input_type_name');
-const inputFieldOfActivity = popupNameFieldOfActivity.querySelector('.popup__input_type_field-of-activity');
+const forms = document.querySelectorAll('.popup__edit-form');
+const researcherName = document.querySelector('.profile__name');
+const activityField = document.querySelector('.profile__field-of-activity');
+const researcherInput = popupActivityFieldName.querySelector('.popup__input_type_name');
+const activityFieldInput = popupActivityFieldName.querySelector('.popup__input_type_field-of-activity');
 const placeName = popupNewElement.querySelector('.popup__input_type_name');
 const placeURL = popupNewElement.querySelector('.popup__input_type_field-of-activity');
+const elementTemplate = document.querySelector('#element').content;
+const elementForm = elementTemplate.querySelector('.elements__element');
 const initialCards = [
   {
     name: 'Собор Парижской Богоматери',
@@ -40,92 +41,94 @@ const initialCards = [
   }
 ];
 
-function saveFotoAndURL(fotoName, imageURL) {
-  closePopup();
-  const elementTemplate = document.querySelector('#element').content;
-  const newElement = elementTemplate.querySelector('.elements__element').cloneNode(true);
-  newElement.querySelector('.elements__mask-group').src = imageURL;
-  newElement.querySelector('.elements__mask-group').alt = fotoName;
+initialCards.forEach(function(currentValue) {
+  createCard(currentValue.name, currentValue.link)
+}); 
+
+function createCard(fotoName, imageURL) {
+  const newElement = elementForm.cloneNode(true);
+  const foto = newElement.querySelector('.elements__mask-group');
+  foto.src = imageURL;
+  foto.alt = fotoName;
   newElement.querySelector('.elements__text').textContent = fotoName;
-  elementsArray.prepend(newElement);
   newElement.querySelector('.elements__button-like').addEventListener('click', function (evt) {
     evt.target.classList.toggle('elements__button-like_active');
   });
-  newElement.querySelector('.elements__delete-button').addEventListener('click', function (evt) {
-    evt.target.parentElement.remove(); 
+  newElement.querySelector('.elements__delete-button').addEventListener('click', function () {
+    newElement.remove(); 
   });
-  newElement.querySelector('.elements__button-open-foto').addEventListener('click', function (evt) {
-    popupMesto.querySelector('.popup__foto').src = evt.target.parentElement.querySelector('.elements__mask-group').src;
-    popupMesto.querySelector('.popup__foto').alt = evt.target.parentElement.querySelector('.elements__text').textContent;
-    popupMesto.querySelector('.popup__text').textContent = evt.target.parentElement.querySelector('.elements__text').textContent;
+  newElement.querySelector('.elements__mask-group').addEventListener('click', function (evt) {
+    const popupFoto = popupMesto.querySelector('.popup__foto');
+    popupFoto.src = foto.src;
+    popupFoto.alt = foto.alt;
+    popupMesto.querySelector('.popup__text').textContent = foto.alt;
     openPopup(popupMesto);
-  });
+  });  
+  elementsArray.prepend(newElement);
 }
-
-elements.forEach(function(currentValue, index) {
-  currentValue.querySelector('.elements__button-like').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('elements__button-like_active');
-  });
-  currentValue.querySelector('.elements__mask-group').src = initialCards[index].link;
-  currentValue.querySelector('.elements__mask-group').alt = initialCards[index].name;
-  currentValue.querySelector('.elements__text').textContent = initialCards[index].name;
-}); 
-
-function openNameFieldOfActivity() {
-  inputOfResearcher.value = nameOfResearcher.innerText;
-  inputFieldOfActivity.value = fieldOfActivity.innerText;
-  openPopup(popupNameFieldOfActivity);
-}
-
-function openNewElement() {
-  openPopup(popupNewElement);
-}
-
-function openPopupMesto(evt) {
-  popupMesto.querySelector('.popup__foto').src = evt.target.parentElement.querySelector('.elements__mask-group').src; 
-  popupMesto.querySelector('.popup__text').textContent = evt.target.parentElement.querySelector('.elements__text').textContent;
-  openPopup(popupMesto);
-}
-
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-} 
 
 function deleteElement(evt) {
   evt.target.parentElement.remove();  
 }
 
-function closePopup() {
-  popupNameFieldOfActivity.classList.remove('popup_opened');
-  popupNewElement.classList.remove('popup_opened');
-  popupMesto.classList.remove('popup_opened');
+function openActivityNameFieldPopup() {
+  researcherInput.value = researcherName.innerText;
+  activityFieldInput.value = activityField.innerText;
+  openPopup(popupActivityFieldName);
 }
 
-function save(event) {
+function openNewElementPopup() {
+  openPopup(popupNewElement);
+}
+
+function openPopup(popup) {
+ popup.classList.add('popup_opened');
+} 
+
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+}
+
+function editProfile () {
+  researcherName.textContent = researcherInput.value;
+  activityField.textContent = activityFieldInput.value;
+  closePopup(popupActivityFieldName);
+}
+
+function resetFormNewCard() {
+  placeName.value = '';
+  placeURL.value = '';
+}
+
+function saveNewCard () {
+  createCard(placeName.value, placeURL.value);
+  closePopup(popupNewElement);
+  resetFormNewCard();
+}
+
+function saveFormData(event) {
   event.preventDefault();
-  if (popupNameFieldOfActivity.classList.contains('popup_opened') === true) {
-    nameOfResearcher.innerText = inputOfResearcher.value;
-    fieldOfActivity.innerText = inputFieldOfActivity.value;
-    closePopup();
-  } else
-      if (popupNewElement.classList.contains('popup_opened') === true) {
-        saveFotoAndURL(placeName.value, placeURL.value);
-        placeName.value = '';
-        placeURL.value = '';
-      } 
+  const targetId = event.currentTarget.id;
+  if (targetId === 'name-field-of-activity') {
+    editProfile();
+  }
+  if (targetId === 'create-element') {
+    saveNewCard();
+  } 
 }
 
-editButton.addEventListener('click', openNameFieldOfActivity);
-addButton.addEventListener('click', openNewElement);
-elements.forEach(function(currentValue) {
-  currentValue.querySelector('.elements__delete-button').addEventListener('click', deleteElement);
-});
-elements.forEach(function(currentValue) {
-  currentValue.querySelector('.elements__button-open-foto').addEventListener('click', openPopupMesto);
-});
+editButton.addEventListener('click', openActivityNameFieldPopup);
+addButton.addEventListener('click', openNewElementPopup);
 closeButtons.forEach(function(currentValue) {
-  currentValue.addEventListener('click', closePopup);
+  currentValue.addEventListener('click', function () {
+    const currentPopup = currentValue.closest('.popup');
+    closePopup(currentPopup);
+    if (currentPopup.classList.contains('popup_new-element')) {
+      resetFormNewCard();
+    }
+  });
+  
 });
-formData.forEach(function(currentValue) {
-  currentValue.addEventListener('submit', save);
+forms.forEach(function(currentValue) {
+  currentValue.addEventListener('submit', saveFormData);
 });

@@ -19,57 +19,15 @@
         <div class="profile__profile-info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
           <button type="button" class="profile__edit-button">
-            <img class="profile__pen" src="images/pen.svg" alt="белая ручка">
+            <img class="profile__pen" src="images/pen.svg" alt="изменение имени и вида деятельности">
           </button>
           <p class="profile__field-of-activity">Исследователь океана</p>
         </div>
         <button type="button" class="profile__add-button">
-          <img class="profile__plus" src="images/plus.svg" alt="знак плюс">
+          <img class="profile__plus" src="images/plus.svg" alt="добавление новой карточки">
         </button>
       </section>
       <section class="elements">
-        <div class="elements__element">
-          <img class="elements__mask-group">
-          <button type="button" class="elements__button-open-foto"></button>
-          <h2 class="elements__text"></h2>
-          <button type="button" class="elements__button-like"></button>
-          <button type="button" class="elements__delete-button"></button>
-        </div>
-        <div class="elements__element">
-          <img class="elements__mask-group">
-          <button type="button" class="elements__button-open-foto"></button>
-          <h2 class="elements__text"></h2>
-          <button type="button" class="elements__button-like"></button>
-          <button type="button" class="elements__delete-button"></button>
-        </div>
-        <div class="elements__element">
-          <img class="elements__mask-group">
-          <button type="button" class="elements__button-open-foto"></button>
-          <h2 class="elements__text"></h2>
-          <button type="button" class="elements__button-like"></button>
-          <button type="button" class="elements__delete-button"></button>
-        </div>
-        <div class="elements__element">
-          <img class="elements__mask-group">
-          <button type="button" class="elements__button-open-foto"></button>
-          <h2 class="elements__text"></h2>
-          <button type="button" class="elements__button-like"></button>
-          <button type="button" class="elements__delete-button"></button>
-        </div>
-        <div class="elements__element">
-          <img class="elements__mask-group">
-          <button type="button" class="elements__button-open-foto"></button>
-          <h2 class="elements__text"></h2>
-          <button type="button" class="elements__button-like"></button>
-          <button type="button" class="elements__delete-button"></button>
-        </div>
-        <div class="elements__element">
-          <img class="elements__mask-group">
-          <button type="button" class="elements__button-open-foto"></button>
-          <h2 class="elements__text"></h2>
-          <button type="button" class="elements__button-like"></button>
-          <button type="button" class="elements__delete-button"></button>
-        </div>
       </section>
     </main>
     <footer class="footer">
@@ -81,10 +39,10 @@
       <button type="button" class="popup__close-button">
         <img class="popup__close-icon" src="images/CloseIcon.svg" alt="белый крестик">
       </button>
-      <form class="popup__edit-form" name="edit-form">
+      <form class="popup__edit-form" id="name-field-of-activity" name="name-field-of-activity">
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input class="popup__input popup__input_type_name" name="name">
-        <input class="popup__input popup__input_type_field-of-activity" name="fieldOfActivity">
+        <input class="popup__input popup__input_type_name" name="name" required>
+        <input class="popup__input popup__input_type_field-of-activity" name="fieldOfActivity" required>
         <button type="submit" class="popup__button-save">Сохранить</button>
       </form>
     </div>
@@ -94,10 +52,11 @@
       <button type="button" class="popup__close-button">
         <img class="popup__close-icon" src="images/CloseIcon.svg" alt="белый крестик">
       </button>
-      <form class="popup__edit-form" name="edit-form">
+      <form class="popup__edit-form" id="create-element" name="create-element">
         <h3 class="popup__title">Новое место</h3>
-        <input class="popup__input popup__input_type_name" name="name" placeholder="Название">
-        <input class="popup__input popup__input_type_field-of-activity" name="fieldOfActivity" placeholder="Ссылка на фото">
+        <input class="popup__input popup__input_type_name" name="name" placeholder="Название" required>
+        <input class="popup__input popup__input_type_field-of-activity" name="fieldOfActivity"
+          placeholder="Ссылка на фото" required>
         <button type="submit" class="popup__button-save">Создать</button>
       </form>
     </div>
@@ -114,13 +73,12 @@
   <template id="element">
     <div class="elements__element">
       <img class="elements__mask-group">
-      <button type="button" class="elements__button-open-foto"></button>
       <h2 class="elements__text"></h2>
       <button type="button" class="elements__button-like"></button>
       <button type="button" class="elements__delete-button"></button>
     </div>
   </template>
-  <script src="scripts/script.js"></script>
+  <script src="scripts/script.js" defer></script>
 </body>
 
 </html>
