@@ -15,7 +15,7 @@ const elementForm = elementTemplate.querySelector('.elements__element');
 const form = document.forms;
 const objectForm = {
   formSelector: '.popup__edit-form',
-  inputSelector: '.popup__input',
+  inputSelector: 'input.popup__input',
   submitButtonSelector: '.popup__button-save',
   inactiveButtonClass: 'popup__button-save_disabled',
   inputErrorClass: 'popup__input_type_error',
@@ -123,6 +123,11 @@ function closePopup(popup) {
       closePopup(popup);
     }
   });
+  const inputList = Array.from(popup.querySelectorAll(objectForm.inputSelector));
+  inputList.forEach(function (currentValue) {
+    hideInputError(objectForm, popup, currentValue);
+  });
+  form.createElement.reset();
 }
 
 form.nameFieldOfActivity.addEventListener('submit', function (evt) {
