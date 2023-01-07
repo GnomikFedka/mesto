@@ -1,0 +1,17 @@
+.popup__input_type_error {
+  background: transparent;
+  width: 358px;
+  color: red;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  transition: 0.3s;
+  margin: 5px auto 0 auto;
+}
+
+@media screen and (max-width: 700px) {
+  .popup__input_type_error {
+    width: 238px;
+  }
+}

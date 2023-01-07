@@ -10,11 +10,7 @@
   font-size: 14px;
   line-height: 17px;
   padding-bottom: 13px;
-  margin: 54px auto 0 auto;
-}
-
-form input.popup__input:last-of-type {
-  margin-top: 30px;
+  margin: 0;
 }
 
 .popup__input:focus { 
@@ -25,10 +21,5 @@ form input.popup__input:last-of-type {
 @media screen and (max-width: 700px) {
   .popup__input {
     width: 238px;
-    margin-top: 75px;
-  }
-
-  form input.popup__input:last-of-type {
-    margin-top: 30px;
   }
 }

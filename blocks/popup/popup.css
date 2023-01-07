@@ -14,3 +14,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 3;
 }
+
+.popup:hover {
+  cursor: pointer;
+}

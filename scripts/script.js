@@ -10,10 +10,17 @@ const researcherName = document.querySelector('.profile__name');
 const activityField = document.querySelector('.profile__field-of-activity');
 const researcherInput = popupActivityFieldName.querySelector('.popup__input_type_name');
 const activityFieldInput = popupActivityFieldName.querySelector('.popup__input_type_field-of-activity');
-const placeName = popupNewElement.querySelector('.popup__input_type_name');
-const placeURL = popupNewElement.querySelector('.popup__input_type_field-of-activity');
 const elementTemplate = document.querySelector('#element').content;
 const elementForm = elementTemplate.querySelector('.elements__element');
+const form = document.forms;
+const objectForm = {
+  formSelector: '.popup__edit-form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button-save',
+  inactiveButtonClass: 'popup__button-save_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
 const initialCards = [
   {
     name: 'Собор Парижской Богоматери',
@@ -41,9 +48,12 @@ const initialCards = [
   }
 ];
 
-initialCards.forEach(function(currentValue) {
+researcherInput.value = researcherName.innerText;
+activityFieldInput.value = activityField.innerText;
+
+initialCards.forEach(function (currentValue) {
   createCard(currentValue.name, currentValue.link)
-}); 
+});
 
 function createCard(fotoName, imageURL) {
   const newElement = elementForm.cloneNode(true);
@@ -55,7 +65,7 @@ function createCard(fotoName, imageURL) {
     evt.target.classList.toggle('elements__button-like_active');
   });
   newElement.querySelector('.elements__delete-button').addEventListener('click', function () {
-    newElement.remove(); 
+    newElement.remove();
   });
   newElement.querySelector('.elements__mask-group').addEventListener('click', function (evt) {
     const popupFoto = popupMesto.querySelector('.popup__foto');
@@ -63,12 +73,12 @@ function createCard(fotoName, imageURL) {
     popupFoto.alt = foto.alt;
     popupMesto.querySelector('.popup__text').textContent = foto.alt;
     openPopup(popupMesto);
-  });  
+  });
   elementsArray.prepend(newElement);
 }
 
 function deleteElement(evt) {
-  evt.target.parentElement.remove();  
+  evt.target.parentElement.remove();
 }
 
 function openActivityNameFieldPopup() {
@@ -82,53 +92,63 @@ function openNewElementPopup() {
 }
 
 function openPopup(popup) {
- popup.classList.add('popup_opened');
-} 
+  popup.classList.add('popup_opened');
+  popup.addEventListener('click', function (event) {
+    const container = popup.querySelector('.popup__container');
+    const coordinates = container.getBoundingClientRect();
+    if ((event.clientX < coordinates.x) || (event.clientX > coordinates.x + coordinates.width) ||
+      (event.clientY < coordinates.y) || (event.clientY > coordinates.y + coordinates.height)) {
+      closePopup(popup);
+    }
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === "Escape") {
+      closePopup(popup);
+    }
+  });
+}
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('click', function (event) {
+    const container = popup.querySelector('.popup__container');
+    const coordinates = container.getBoundingClientRect();
+    if ((event.clientX < coordinates.x) || (event.clientX > coordinates.x + coordinates.width) ||
+      (event.clientY < coordinates.y) || (event.clientY > coordinates.y + coordinates.height)) {
+      closePopup(currentValue);
+    }
+  });
+  document.removeEventListener('keydown', function (event) {
+    if (event.key === "Escape") {
+      closePopup(popup);
+    }
+  });
 }
 
-function editProfile () {
+form.nameFieldOfActivity.addEventListener('submit', function (evt) {
+  evt.preventDefault();
   researcherName.textContent = researcherInput.value;
   activityField.textContent = activityFieldInput.value;
   closePopup(popupActivityFieldName);
-}
+});
 
-function resetFormNewCard() {
-  placeName.value = '';
-  placeURL.value = '';
-}
-
-function saveNewCard () {
+form.createElement.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  const placeName = form.createElement.elements.name;
+  const placeURL = form.createElement.elements.fieldOfActivity;
   createCard(placeName.value, placeURL.value);
   closePopup(popupNewElement);
-  resetFormNewCard();
-}
-
-function saveFormData(event) {
-  event.preventDefault();
-  const targetId = event.currentTarget.id;
-  if (targetId === 'name-field-of-activity') {
-    editProfile();
-  }
-  if (targetId === 'create-element') {
-    saveNewCard();
-  } 
-}
+  form.createElement.reset();
+});
 
 editButton.addEventListener('click', openActivityNameFieldPopup);
 addButton.addEventListener('click', openNewElementPopup);
-closeButtons.forEach(function(currentValue) {
+closeButtons.forEach(function (currentValue) {
   currentValue.addEventListener('click', function () {
     const currentPopup = currentValue.closest('.popup');
     closePopup(currentPopup);
     if (currentPopup.classList.contains('popup_new-element')) {
-      resetFormNewCard();
+      form['create-element'].reset();
     }
   });
-  
-});
-forms.forEach(function(currentValue) {
-  currentValue.addEventListener('submit', saveFormData);
 });
