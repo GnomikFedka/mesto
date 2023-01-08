@@ -10,22 +10,22 @@ const showInputError = (objectFormData, formElement, inputElement, errorMessage)
     errorElement.textContent = '';
   };
   
-  const checkInputValidity = (formElement, inputElement) => {
+  const checkInputValidity = (objectFormData, formElement, inputElement) => {
     if (!inputElement.validity.valid) {
-      showInputError(objectForm, formElement, inputElement, inputElement.validationMessage);
+      showInputError(objectFormData, formElement, inputElement, inputElement.validationMessage);
     } else {
-      hideInputError(objectForm, formElement, inputElement);
+      hideInputError(objectFormData, formElement, inputElement);
     }
   };
   
   const setEventListeners = (objectFormData, formElement) => {
     const inputList = Array.from(formElement.querySelectorAll(objectFormData.inputSelector));
     const formButtonElement = formElement.querySelector(objectFormData.submitButtonSelector);
-    toggleButtonState(objectForm, inputList, formButtonElement);
+    toggleButtonState(objectFormData, inputList, formButtonElement);
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', function () {
-        checkInputValidity(formElement, inputElement);
-        toggleButtonState(objectForm, inputList, formButtonElement);
+        checkInputValidity(objectFormData, formElement, inputElement);
+        toggleButtonState(objectFormData, inputList, formButtonElement);
       });
     });
   };
@@ -33,10 +33,7 @@ const showInputError = (objectFormData, formElement, inputElement, errorMessage)
   const enableValidation = (objectFormData) => {
     const formList = Array.from(document.querySelectorAll(objectFormData.formSelector));
     formList.forEach((formElement) => {
-      formElement.addEventListener('submit', function (evt) {
-        evt.preventDefault();
-      });
-      setEventListeners(objectForm, formElement);
+      setEventListeners(objectFormData, formElement);
     });
   };
   
@@ -51,6 +48,10 @@ const showInputError = (objectFormData, formElement, inputElement, errorMessage)
   function toggleButtonState (objectFormData, inputList, buttonElement) {
     if (hasInvalidInput(inputList)) {
       buttonElement.classList.add(objectFormData.inactiveButtonClass);
+      buttonElement.setAttribute("disabled", "disabled");
     }
-    else buttonElement.classList.remove(objectFormData.inactiveButtonClass);
+    else {
+      buttonElement.classList.remove(objectFormData.inactiveButtonClass);
+      buttonElement.removeAttribute("disabled", "disabled");
+    }
   }

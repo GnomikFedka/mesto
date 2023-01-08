@@ -1,18 +1,19 @@
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
+const popups = document.querySelectorAll('.popup');
 const popupActivityFieldName = document.querySelector('.popup_name-field-of-activity');
 const popupNewElement = document.querySelector('.popup_new-element');
 const popupMesto = document.querySelector('.popup_foto-mesto');
+const popupText = popupMesto.querySelector('.popup__text')
 const closeButtons = document.querySelectorAll('.popup__close-button');
 const elementsArray = document.querySelector('.elements');
-const forms = document.querySelectorAll('.popup__edit-form');
 const researcherName = document.querySelector('.profile__name');
 const activityField = document.querySelector('.profile__field-of-activity');
 const researcherInput = popupActivityFieldName.querySelector('.popup__input_type_name');
 const activityFieldInput = popupActivityFieldName.querySelector('.popup__input_type_field-of-activity');
 const elementTemplate = document.querySelector('#element').content;
 const elementForm = elementTemplate.querySelector('.elements__element');
-const form = document.forms;
+const forms = document.forms;
 const objectForm = {
   formSelector: '.popup__edit-form',
   inputSelector: 'input.popup__input',
@@ -48,12 +49,13 @@ const initialCards = [
   }
 ];
 
-researcherInput.value = researcherName.innerText;
-activityFieldInput.value = activityField.innerText;
-
 initialCards.forEach(function (currentValue) {
-  createCard(currentValue.name, currentValue.link)
+  renderCard(currentValue.name, currentValue.link)
 });
+
+function renderCard(fotoName, imageURL) {
+  elementsArray.prepend(createCard(fotoName, imageURL));
+}
 
 function createCard(fotoName, imageURL) {
   const newElement = elementForm.cloneNode(true);
@@ -67,93 +69,109 @@ function createCard(fotoName, imageURL) {
   newElement.querySelector('.elements__delete-button').addEventListener('click', function () {
     newElement.remove();
   });
-  newElement.querySelector('.elements__mask-group').addEventListener('click', function (evt) {
+  foto.addEventListener('click', function () {
     const popupFoto = popupMesto.querySelector('.popup__foto');
     popupFoto.src = foto.src;
     popupFoto.alt = foto.alt;
-    popupMesto.querySelector('.popup__text').textContent = foto.alt;
+    popupText.textContent = foto.alt;
     openPopup(popupMesto);
   });
-  elementsArray.prepend(newElement);
+  return newElement;
 }
 
 function deleteElement(evt) {
-  evt.target.parentElement.remove();
+  evt.target.closest.remove();
 }
 
 function openActivityNameFieldPopup() {
   researcherInput.value = researcherName.innerText;
   activityFieldInput.value = activityField.innerText;
+  enableValidation(objectForm);
   openPopup(popupActivityFieldName);
 }
 
 function openNewElementPopup() {
+  enableValidation(objectForm);
   openPopup(popupNewElement);
 }
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  popup.addEventListener('click', function (event) {
-    const container = popup.querySelector('.popup__container');
-    const coordinates = container.getBoundingClientRect();
-    if ((event.clientX < coordinates.x) || (event.clientX > coordinates.x + coordinates.width) ||
-      (event.clientY < coordinates.y) || (event.clientY > coordinates.y + coordinates.height)) {
-      closePopup(popup);
-    }
-  });
-  document.addEventListener('keydown', function (event) {
-    if (event.key === "Escape") {
-      closePopup(popup);
-    }
-  });
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-  popup.removeEventListener('click', function (event) {
-    const container = popup.querySelector('.popup__container');
-    const coordinates = container.getBoundingClientRect();
-    if ((event.clientX < coordinates.x) || (event.clientX > coordinates.x + coordinates.width) ||
-      (event.clientY < coordinates.y) || (event.clientY > coordinates.y + coordinates.height)) {
+}
+
+popups.forEach(function (currentValue) {
+  currentValue.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('popup')) {
       closePopup(currentValue);
     }
   });
-  document.removeEventListener('keydown', function (event) {
-    if (event.key === "Escape") {
-      closePopup(popup);
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === "Escape") {
+      closePopup(currentValue);
     }
   });
-  const inputList = Array.from(popup.querySelectorAll(objectForm.inputSelector));
+});
+
+popupNewElement.addEventListener('click', function (evt) {
+  if ((evt.target.classList.contains('popup')) || (evt.target.classList.contains('popup__close-icon'))) {
+    clearInputError(objectForm, popupNewElement);
+    forms.createElement.reset();
+  }
+});
+
+popupActivityFieldName.addEventListener('click', function (evt) {
+  if ((evt.target.classList.contains('popup')) || (evt.target.classList.contains('popup__close-icon'))) {
+    clearInputError(objectForm, popupActivityFieldName);
+  }
+});
+
+popupNewElement.addEventListener('keydown', function (evt) {
+  if (evt.key === "Escape") {
+    clearInputError(objectForm, popupNewElement);
+    forms.createElement.reset();
+  }
+});
+
+popupActivityFieldName.addEventListener('keydown', function (evt) {
+  if (evt.key === "Escape") {
+    clearInputError(objectForm, popupActivityFieldName);
+  }
+});
+
+function clearInputError(objectFormData, popup) {
+  const inputList = Array.from(popup.querySelectorAll(objectFormData.inputSelector));
   inputList.forEach(function (currentValue) {
-    hideInputError(objectForm, popup, currentValue);
+    hideInputError(objectFormData, popup, currentValue);
   });
-  form.createElement.reset();
 }
 
-form.nameFieldOfActivity.addEventListener('submit', function (evt) {
+forms.nameFieldOfActivity.addEventListener('submit', function (evt) {
   evt.preventDefault();
   researcherName.textContent = researcherInput.value;
   activityField.textContent = activityFieldInput.value;
   closePopup(popupActivityFieldName);
+  clearInputError(objectForm, popupActivityFieldName)
 });
 
-form.createElement.addEventListener('submit', function (evt) {
+forms.createElement.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  const placeName = form.createElement.elements.name;
-  const placeURL = form.createElement.elements.fieldOfActivity;
-  createCard(placeName.value, placeURL.value);
+  const placeName = forms.createElement.elements.name;
+  const placeURL = forms.createElement.elements.fieldOfActivity;
+  renderCard(placeName.value, placeURL.value);
   closePopup(popupNewElement);
-  form.createElement.reset();
+  clearInputError(objectForm, popupNewElement);
+  forms.createElement.reset();
 });
 
 editButton.addEventListener('click', openActivityNameFieldPopup);
 addButton.addEventListener('click', openNewElementPopup);
 closeButtons.forEach(function (currentValue) {
+  const currentPopup = currentValue.closest('.popup');
   currentValue.addEventListener('click', function () {
-    const currentPopup = currentValue.closest('.popup');
     closePopup(currentPopup);
-    if (currentPopup.classList.contains('popup_new-element')) {
-      form['create-element'].reset();
-    }
   });
 });
