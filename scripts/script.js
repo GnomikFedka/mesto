@@ -4,7 +4,8 @@ const popups = document.querySelectorAll('.popup');
 const popupActivityFieldName = document.querySelector('.popup_name-field-of-activity');
 const popupNewElement = document.querySelector('.popup_new-element');
 const popupMesto = document.querySelector('.popup_foto-mesto');
-const popupText = popupMesto.querySelector('.popup__text')
+const popupText = popupMesto.querySelector('.popup__text');
+const popupFoto = popupMesto.querySelector('.popup__foto');
 const closeButtons = document.querySelectorAll('.popup__close-button');
 const elementsArray = document.querySelector('.elements');
 const researcherName = document.querySelector('.profile__name');
@@ -60,17 +61,18 @@ function renderCard(fotoName, imageURL) {
 function createCard(fotoName, imageURL) {
   const newElement = elementForm.cloneNode(true);
   const foto = newElement.querySelector('.elements__mask-group');
+  const like = newElement.querySelector('.elements__button-like');
+  const deleteButton = newElement.querySelector('.elements__delete-button');
   foto.src = imageURL;
   foto.alt = fotoName;
   newElement.querySelector('.elements__text').textContent = fotoName;
-  newElement.querySelector('.elements__button-like').addEventListener('click', function (evt) {
+  like.addEventListener('click', function (evt) {
     evt.target.classList.toggle('elements__button-like_active');
   });
-  newElement.querySelector('.elements__delete-button').addEventListener('click', function () {
+  deleteButton.addEventListener('click', function () {
     newElement.remove();
   });
   foto.addEventListener('click', function () {
-    const popupFoto = popupMesto.querySelector('.popup__foto');
     popupFoto.src = foto.src;
     popupFoto.alt = foto.alt;
     popupText.textContent = foto.alt;
@@ -79,28 +81,31 @@ function createCard(fotoName, imageURL) {
   return newElement;
 }
 
-function deleteElement(evt) {
-  evt.target.closest.remove();
-}
-
 function openActivityNameFieldPopup() {
   researcherInput.value = researcherName.innerText;
   activityFieldInput.value = activityField.innerText;
-  enableValidation(objectForm);
+  clearInputError(objectForm, popupActivityFieldName);
+  setEventListeners(objectForm, forms.nameFieldOfActivity);
   openPopup(popupActivityFieldName);
 }
 
 function openNewElementPopup() {
-  enableValidation(objectForm);
+  forms.createElement.reset();
+  clearInputError(objectForm, popupNewElement);
+  setEventListeners(objectForm, forms.createElement);
   openPopup(popupNewElement);
 }
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closeByEsc);
+  document.addEventListener('click', closeByMouseClick);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeByEsc);
+  document.removeEventListener('click', closeByMouseClick);
 }
 
 popups.forEach(function (currentValue) {
@@ -116,31 +121,19 @@ popups.forEach(function (currentValue) {
   });
 });
 
-popupNewElement.addEventListener('click', function (evt) {
+function closeByEsc(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup); 
+  }
+}
+
+function closeByMouseClick(evt) {
   if ((evt.target.classList.contains('popup')) || (evt.target.classList.contains('popup__close-icon'))) {
-    clearInputError(objectForm, popupNewElement);
-    forms.createElement.reset();
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup); 
   }
-});
-
-popupActivityFieldName.addEventListener('click', function (evt) {
-  if ((evt.target.classList.contains('popup')) || (evt.target.classList.contains('popup__close-icon'))) {
-    clearInputError(objectForm, popupActivityFieldName);
-  }
-});
-
-popupNewElement.addEventListener('keydown', function (evt) {
-  if (evt.key === "Escape") {
-    clearInputError(objectForm, popupNewElement);
-    forms.createElement.reset();
-  }
-});
-
-popupActivityFieldName.addEventListener('keydown', function (evt) {
-  if (evt.key === "Escape") {
-    clearInputError(objectForm, popupActivityFieldName);
-  }
-});
+}  
 
 function clearInputError(objectFormData, popup) {
   const inputList = Array.from(popup.querySelectorAll(objectFormData.inputSelector));
@@ -163,8 +156,6 @@ forms.createElement.addEventListener('submit', function (evt) {
   const placeURL = forms.createElement.elements.fieldOfActivity;
   renderCard(placeName.value, placeURL.value);
   closePopup(popupNewElement);
-  clearInputError(objectForm, popupNewElement);
-  forms.createElement.reset();
 });
 
 editButton.addEventListener('click', openActivityNameFieldPopup);
