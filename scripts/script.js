@@ -15,6 +15,8 @@ const activityFieldInput = popupActivityFieldName.querySelector('.popup__input_t
 const elementTemplate = document.querySelector('#element').content;
 const elementForm = elementTemplate.querySelector('.elements__element');
 const forms = document.forms;
+const saveButtonNewElement = forms.createElement.querySelector('.popup__button-save');
+const saveButtonActivityFieldName = forms.nameFieldOfActivity.querySelector('.popup__button-save');
 const objectForm = {
   formSelector: '.popup__edit-form',
   inputSelector: 'input.popup__input',
@@ -23,6 +25,8 @@ const objectForm = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 }
+const inputListNewElement = Array.from(forms.createElement.querySelectorAll(objectForm.inputSelector));
+const inputListActivityFieldName = Array.from(forms.nameFieldOfActivity.querySelectorAll(objectForm.inputSelector));
 const initialCards = [
   {
     name: 'Собор Парижской Богоматери',
@@ -85,27 +89,25 @@ function openActivityNameFieldPopup() {
   researcherInput.value = researcherName.innerText;
   activityFieldInput.value = activityField.innerText;
   clearInputError(objectForm, popupActivityFieldName);
-  setEventListeners(objectForm, forms.nameFieldOfActivity);
+  toggleButtonState (objectForm, inputListActivityFieldName, saveButtonActivityFieldName)
   openPopup(popupActivityFieldName);
 }
 
 function openNewElementPopup() {
   forms.createElement.reset();
   clearInputError(objectForm, popupNewElement);
-  setEventListeners(objectForm, forms.createElement);
+  toggleButtonState (objectForm, inputListNewElement, saveButtonNewElement);
   openPopup(popupNewElement);
 }
 
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closeByEsc);
-  document.addEventListener('click', closeByMouseClick);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener('keydown', closeByEsc);
-  document.removeEventListener('click', closeByMouseClick);
 }
 
 popups.forEach(function (currentValue) {
@@ -114,26 +116,14 @@ popups.forEach(function (currentValue) {
       closePopup(currentValue);
     }
   });
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === "Escape") {
-      closePopup(currentValue);
-    }
-  });
 });
 
 function closeByEsc(evt) {
   if (evt.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup); 
+    closePopup(openedPopup);
   }
 }
-
-function closeByMouseClick(evt) {
-  if ((evt.target.classList.contains('popup')) || (evt.target.classList.contains('popup__close-icon'))) {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup); 
-  }
-}  
 
 function clearInputError(objectFormData, popup) {
   const inputList = Array.from(popup.querySelectorAll(objectFormData.inputSelector));
@@ -147,7 +137,6 @@ forms.nameFieldOfActivity.addEventListener('submit', function (evt) {
   researcherName.textContent = researcherInput.value;
   activityField.textContent = activityFieldInput.value;
   closePopup(popupActivityFieldName);
-  clearInputError(objectForm, popupActivityFieldName)
 });
 
 forms.createElement.addEventListener('submit', function (evt) {
