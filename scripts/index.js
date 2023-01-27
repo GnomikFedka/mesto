@@ -1,22 +1,24 @@
+import {Card} from './Card.js';
+import {FormValidator} from './FormValidator.js';
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const popups = document.querySelectorAll('.popup');
 const popupActivityFieldName = document.querySelector('.popup_name-field-of-activity');
 const popupNewElement = document.querySelector('.popup_new-element');
-const popupMesto = document.querySelector('.popup_foto-mesto');
-const popupText = popupMesto.querySelector('.popup__text');
-const popupFoto = popupMesto.querySelector('.popup__foto');
 const closeButtons = document.querySelectorAll('.popup__close-button');
-const elementsArray = document.querySelector('.elements');
 const researcherName = document.querySelector('.profile__name');
 const activityField = document.querySelector('.profile__field-of-activity');
 const researcherInput = popupActivityFieldName.querySelector('.popup__input_type_name');
 const activityFieldInput = popupActivityFieldName.querySelector('.popup__input_type_field-of-activity');
-const elementTemplate = document.querySelector('#element').content;
-const elementForm = elementTemplate.querySelector('.elements__element');
 const forms = document.forms;
 const saveButtonNewElement = forms.createElement.querySelector('.popup__button-save');
 const saveButtonActivityFieldName = forms.nameFieldOfActivity.querySelector('.popup__button-save');
+const popupMesto = document.querySelector('.popup_foto-mesto');
+const popupText = popupMesto.querySelector('.popup__text');
+const popupFoto = popupMesto.querySelector('.popup__foto');
+const elementsArray = document.querySelector('.elements'); 
+const elementTemplate = document.querySelector('#element').content;
+const elementForm = elementTemplate.querySelector('.elements__element');
 const objectForm = {
   formSelector: '.popup__edit-form',
   inputSelector: 'input.popup__input',
@@ -26,7 +28,7 @@ const objectForm = {
   errorClass: 'popup__error_visible'
 }
 const inputListNewElement = Array.from(forms.createElement.querySelectorAll(objectForm.inputSelector));
-const inputListActivityFieldName = Array.from(forms.nameFieldOfActivity.querySelectorAll(objectForm.inputSelector));
+const inputListActivityFieldName = Array.from(forms.nameFieldOfActivity.querySelectorAll(objectForm.inputSelector)); 
 const initialCards = [
   {
     name: 'Собор Парижской Богоматери',
@@ -54,49 +56,29 @@ const initialCards = [
   }
 ];
 
+const validatorOfNewElement = new FormValidator(objectForm, forms.createElement);
+validatorOfNewElement.enableValidation();
+
+const validatorOfActivityFieldName = new FormValidator(objectForm, forms.nameFieldOfActivity);
+validatorOfActivityFieldName.enableValidation();
+
 initialCards.forEach(function (currentValue) {
-  renderCard(currentValue.name, currentValue.link)
+  const place = new Card(currentValue.name, currentValue.link);
+  place.renderCard()
 });
-
-function renderCard(fotoName, imageURL) {
-  elementsArray.prepend(createCard(fotoName, imageURL));
-}
-
-function createCard(fotoName, imageURL) {
-  const newElement = elementForm.cloneNode(true);
-  const foto = newElement.querySelector('.elements__mask-group');
-  const like = newElement.querySelector('.elements__button-like');
-  const deleteButton = newElement.querySelector('.elements__delete-button');
-  foto.src = imageURL;
-  foto.alt = fotoName;
-  newElement.querySelector('.elements__text').textContent = fotoName;
-  like.addEventListener('click', function (evt) {
-    evt.target.classList.toggle('elements__button-like_active');
-  });
-  deleteButton.addEventListener('click', function () {
-    newElement.remove();
-  });
-  foto.addEventListener('click', function () {
-    popupFoto.src = foto.src;
-    popupFoto.alt = foto.alt;
-    popupText.textContent = foto.alt;
-    openPopup(popupMesto);
-  });
-  return newElement;
-}
 
 function openActivityNameFieldPopup() {
   researcherInput.value = researcherName.innerText;
   activityFieldInput.value = activityField.innerText;
-  clearInputError(objectForm, popupActivityFieldName);
-  toggleButtonState (objectForm, inputListActivityFieldName, saveButtonActivityFieldName)
+  clearInputError(objectForm, popupActivityFieldName, validatorOfActivityFieldName);
+  validatorOfActivityFieldName.toggleButtonState(objectForm, inputListActivityFieldName, saveButtonActivityFieldName)
   openPopup(popupActivityFieldName);
 }
 
 function openNewElementPopup() {
   forms.createElement.reset();
-  clearInputError(objectForm, popupNewElement);
-  toggleButtonState (objectForm, inputListNewElement, saveButtonNewElement);
+  clearInputError(objectForm, popupNewElement, validatorOfNewElement);
+  validatorOfNewElement.toggleButtonState(objectForm, inputListNewElement, saveButtonNewElement);
   openPopup(popupNewElement);
 }
 
@@ -125,10 +107,10 @@ function closeByEsc(evt) {
   }
 }
 
-function clearInputError(objectFormData, popup) {
+function clearInputError(objectFormData, popup, validator) {
   const inputList = Array.from(popup.querySelectorAll(objectFormData.inputSelector));
   inputList.forEach(function (currentValue) {
-    hideInputError(objectFormData, popup, currentValue);
+    validator.hideInputError(objectFormData, popup, currentValue);
   });
 }
 
@@ -139,11 +121,12 @@ forms.nameFieldOfActivity.addEventListener('submit', function (evt) {
   closePopup(popupActivityFieldName);
 });
 
-forms.createElement.addEventListener('submit', function (evt) {
+forms.createElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  const placeName = forms.createElement.elements.name;
-  const placeURL = forms.createElement.elements.fieldOfActivity;
-  renderCard(placeName.value, placeURL.value);
+  const placeName = forms.createElement.elements.name.value;
+  const placeURL = forms.createElement.elements.fieldOfActivity.value;
+  const newPlace = new Card(placeName, placeURL);
+  newPlace.renderCard()
   closePopup(popupNewElement);
 });
 
@@ -155,3 +138,5 @@ closeButtons.forEach(function (currentValue) {
     closePopup(currentPopup);
   });
 });
+
+export {openPopup, popupMesto, popupText, popupFoto, elementsArray, elementForm}
