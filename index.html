@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Permissions-Policy" content="interest-cohort=()"/>
+  <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
   <title>Места</title>
   <link rel="stylesheet" href="pages/index.css">
 </head>
@@ -42,8 +42,8 @@
       </button>
       <form class="popup__edit-form" id="name-field-of-activity" name="nameFieldOfActivity" novalidate>
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input class="popup__input popup__input_type_name" id="name-input" name="name" placeholder="Имя" required minlength="2"
-          maxlength="40">
+        <input class="popup__input popup__input_type_name" id="name-input" name="name" placeholder="Имя" required
+          minlength="2" maxlength="40">
         <span class="popup__input popup__input_type_error name-input-error"></span>
         <input class="popup__input popup__input_type_field-of-activity" id="fieldOfActivity-input" placeholder="О себе"
           name="fieldOfActivity" required minlength="2" maxlength="200">
@@ -90,4 +90,5 @@
   <script type="module" src="scripts/Card.js" defer></script>
   <script type="module" src="scripts/FormValidator.js" defer></script>
 </body>
+
 </html>
