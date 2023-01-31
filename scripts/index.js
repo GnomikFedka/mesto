@@ -11,9 +11,10 @@ const activityField = document.querySelector('.profile__field-of-activity');
 const researcherInput = popupActivityFieldName.querySelector('.popup__input_type_name');
 const activityFieldInput = popupActivityFieldName.querySelector('.popup__input_type_field-of-activity');
 const forms = document.forms;
-const saveButtonNewElement = forms.createElement.querySelector('.popup__button-save');
-const saveButtonActivityFieldName = forms.nameFieldOfActivity.querySelector('.popup__button-save');
 const elementsArray = document.querySelector('.elements');
+const popupMesto = document.querySelector('.popup_foto-mesto');
+const popupText = popupMesto.querySelector('.popup__text');
+const popupFoto = popupMesto.querySelector('.popup__foto');
 const elementTemplate = document.querySelector('#element').content;
 const elementForm = elementTemplate.querySelector('.elements__element');
 const objectForm = {
@@ -24,8 +25,6 @@ const objectForm = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 }
-const inputListNewElement = Array.from(forms.createElement.querySelectorAll(objectForm.inputSelector));
-const inputListActivityFieldName = Array.from(forms.nameFieldOfActivity.querySelectorAll(objectForm.inputSelector));
 const initialCards = [
   {
     name: 'Собор Парижской Богоматери',
@@ -60,23 +59,27 @@ const validatorOfActivityFieldName = new FormValidator(objectForm, forms.nameFie
 validatorOfActivityFieldName.enableValidation();
 
 initialCards.forEach(function (currentValue) {
-  const place = new Card(currentValue.name, currentValue.link, elementForm);
-  elementsArray.prepend(place.createCard());
+  elementsArray.prepend(createCard(currentValue.name, currentValue.link));
 });
 
 function openActivityNameFieldPopup() {
   researcherInput.value = researcherName.innerText;
   activityFieldInput.value = activityField.innerText;
-  clearInputError(objectForm, popupActivityFieldName, validatorOfActivityFieldName);
-  validatorOfActivityFieldName.toggleButtonState(objectForm, inputListActivityFieldName, saveButtonActivityFieldName)
+  validatorOfActivityFieldName.resetValidation()
   openPopup(popupActivityFieldName);
 }
 
 function openNewElementPopup() {
   forms.createElement.reset();
-  clearInputError(objectForm, popupNewElement, validatorOfNewElement);
-  validatorOfNewElement.toggleButtonState(objectForm, inputListNewElement, saveButtonNewElement);
+  validatorOfNewElement.resetValidation();
   openPopup(popupNewElement);
+}
+
+function handleCardClick(name, link) {
+  popupFoto.src = link;
+  popupFoto.alt = name;
+  popupText.textContent = name;
+  openPopup(popupMesto);
 }
 
 function openPopup(popup) {
@@ -104,13 +107,6 @@ function closeByEsc(evt) {
   }
 }
 
-function clearInputError(objectFormData, popup, validator) {
-  const inputList = Array.from(popup.querySelectorAll(objectFormData.inputSelector));
-  inputList.forEach(function (currentValue) {
-    validator.hideInputError(objectFormData, popup, currentValue);
-  });
-}
-
 forms.nameFieldOfActivity.addEventListener('submit', function (evt) {
   evt.preventDefault();
   researcherName.textContent = researcherInput.value;
@@ -122,10 +118,15 @@ forms.createElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const placeName = forms.createElement.elements.name.value;
   const placeURL = forms.createElement.elements.fieldOfActivity.value;
-  const newPlace = new Card(placeName, placeURL, elementForm);
-  elementsArray.prepend(newPlace.createCard());
+  elementsArray.prepend(createCard(placeName, placeURL));
   closePopup(popupNewElement);
 });
+
+function createCard(placeName, placeURL) {
+  const place = new Card(placeName, placeURL, elementForm);
+  const cardElement = place.createCard();
+  return cardElement
+}
 
 editButton.addEventListener('click', openActivityNameFieldPopup);
 addButton.addEventListener('click', openNewElementPopup);
@@ -135,3 +136,5 @@ closeButtons.forEach(function (currentValue) {
     closePopup(currentPopup);
   });
 });
+
+export {handleCardClick};
