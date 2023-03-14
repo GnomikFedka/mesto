@@ -1,9 +1,9 @@
-import { handleCardClick } from './index.js';
 export class Card {
-  constructor(fotoName, imageURL, elementForm) {
-    this._fotoName = fotoName;
-    this._imageURL = imageURL;
+  constructor({data, handleCardClick}, elementForm) {
+    this._fotoName = data[0];
+    this._imageURL = data[1];
     this._elementForm = elementForm;
+    this._handleCardClick = handleCardClick
   }
 
   _getTemplate = () => {
@@ -21,7 +21,7 @@ export class Card {
       newElement.remove();
     });
     newElement.querySelector('.elements__mask-group').addEventListener('click', () => {
-     handleCardClick(this._fotoName, this._imageURL);
+     this._handleCardClick(this._fotoName, this._imageURL);
     });
   }
 
