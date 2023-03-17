@@ -1,60 +1,40 @@
 import { Popup } from "./Popup.js";
-import { Card } from '../Card.js';
 import {
-    forms,
-    elementForm
-} from '../utils/constants.js';
-import { cardList } from "../index.js";
-import { userInfo } from "../index.js";
-import { cardPopup } from "../index.js";
+  validatorOfActivityFieldName
+} from '../../pages/index.js';
 export class PopupWithForm extends Popup {
-    constructor (popupSelector) {
+    constructor (popupSelector, { submitCallBack }) {
+      this._submitCallBack = submitCallBack;
       super(popupSelector);
+      this._popupNewElement = this._popup.classList.contains('popup_new-element');
+      this._popupNameFieldOfActivity = this._popup.classList.contains('popup_new-element');
+      this._editform = this._popup.querySelector('.popup__container').querySelector('.popup__edit-form');
     }
 
-    getInputValues() {
-      return this._popup.querySelectorAll('input');
+    _getInputValues() {
+      const inputs = this._popup.querySelectorAll('input');
+      return {
+        name: inputs[0].value,
+        info: inputs[1].value
+      }
     }
 
     open() {
       this._popup.classList.add('popup_opened');
       document.addEventListener('keydown', this._handleEscClose);
+      if (this._popup.classList.contains('popup_new-element')) {
+        validatorOfActivityFieldName.disableSubmitButton();
+      }
     }
 
     close() {
       this._popup.classList.remove('popup_opened');
-      document.removeEventListener('keydown', super._handleEscClose);
-      this._popup.querySelector('.popup__container').querySelector('.popup__edit-form').reset();
+      document.removeEventListener('keydown', this._handleEscClose);
+      this._editform.reset();
     }
 
-    setEventListeners () {
-      this._closeButton.addEventListener('click', () => {
-        this.close();
-      });
-      this._popup.addEventListener('click', (evt) => {
-        if (evt.target.classList.contains('popup')) {
-          this.close();
-        }
-      });
-      const inputs = this.getInputValues();
-      if (this._popup.classList.contains('popup_new-element')) {
-      forms.createElement.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-        const nameAndURL = [inputs[0].value, inputs[1].value];
-        const card = new Card({data: nameAndURL, handleCardClick: (name, link) => {
-          cardPopup.open(link, name);
-         }}, elementForm);
-        const cardElement = card.createCard();
-        cardList.addItem(cardElement);
-        this.close();
-      })
-      }
-      if (this._popup.classList.contains('popup_name-field-of-activity')) {
-        forms.nameFieldOfActivity.addEventListener('submit', (evt) => {
-          evt.preventDefault();
-          userInfo.setUserInfo(inputs);
-          this.close();
-        })
-      }
+    setEventListenersAndSubmit () {
+      this.setEventListeners();
+      this._submitCallBack(this._getInputValues());
     }
 }

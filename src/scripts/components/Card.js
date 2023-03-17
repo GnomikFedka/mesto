@@ -1,10 +1,12 @@
 export class Card {
   constructor({data, handleCardClick}, elementForm) {
-    this._fotoName = data[0];
-    this._imageURL = data[1];
+    this._fotoName = data.name;
+    this._imageURL = data.info;
     this._elementForm = elementForm;
     this._handleCardClick = handleCardClick
   }
+
+  #newElement = this._getTemplate();
 
   _getTemplate = () => {
     const card = this._elementForm.cloneNode(true);
@@ -26,11 +28,10 @@ export class Card {
   }
 
   createCard = () => {
-    const newElement = this._getTemplate();
-    newElement.querySelector('.elements__text').textContent = this._fotoName;
-    newElement.querySelector('.elements__mask-group').src = this._imageURL;
-    newElement.querySelector('.elements__mask-group').alt = this._fotoName;
-    this._setEventlisteners(newElement);
-    return newElement;
+    this.#newElement.querySelector('.elements__text').textContent = this._fotoName;
+    this.#newElement.querySelector('.elements__mask-group').src = this._imageURL;
+    this.#newElement.querySelector('.elements__mask-group').alt = this._fotoName;
+    this._setEventlisteners(this.#newElement);
+    return this.#newElement;
   }
 }

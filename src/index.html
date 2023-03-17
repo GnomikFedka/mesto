@@ -42,7 +42,7 @@
       </button>
       <form class="popup__edit-form" id="name-field-of-activity" name="nameFieldOfActivity" novalidate>
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input class="popup__input popup__input_type_name" id="name-input" name="name" placeholder="Имя" required
+        <input class="popup__input popup__input_type_name" id="name-input" name="profileName" placeholder="Имя" required
           minlength="2" maxlength="40">
         <span class="popup__input popup__input_type_error name-input-error"></span>
         <input class="popup__input popup__input_type_field-of-activity" id="fieldOfActivity-input" placeholder="О себе"
@@ -59,11 +59,11 @@
       </button>
       <form class="popup__edit-form" id="create-element" name="createElement" novalidate>
         <h3 class="popup__title">Новое место</h3>
-        <input class="popup__input popup__input_type_name" id="fotoName-input" name="name" placeholder="Название"
+        <input class="popup__input popup__input_type_name" id="fotoName-input" name="cardName" placeholder="Название"
           required minlength="2" maxlength="30">
         <span class="popup__input popup__input_type_error fotoName-input-error"></span>
         <input type="url" class="popup__input popup__input_type_field-of-activity" id="fotoUrl-input"
-          name="fieldOfActivity" placeholder="Ссылка на фото" required>
+          name="fotoUrl" placeholder="Ссылка на фото" required>
         <span class="popup__input popup__input_type_error fotoUrl-input-error"></span>
         <button type="submit" class="popup__button-save">Создать</button>
       </form>

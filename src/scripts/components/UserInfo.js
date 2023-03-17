@@ -1,16 +1,14 @@
-import {
-    researcherName,
-    activityField
-} from '../utils/constants.js';
 export class UserInfo {
     constructor () {
+      this._researcherName = document.querySelector('.profile__name');
+      this._activityField = document.querySelector('.profile__field-of-activity');
     }
-    getUserInfo (inputs) {
-        inputs[0].value = researcherName.textContent;
-        inputs[1].value = activityField.textContent;
+    getUserInfo (userData) {
+        userData.name = this._researcherName.textContent;
+        userData.info = this._activityField.textContent;
     }
-    setUserInfo (inputs) {
-        researcherName.textContent = inputs[0].value;
-        activityField.textContent = inputs[1].value;
+    setUserInfo (userData) {
+        this._researcherName.textContent = userData.name;
+        this._activityField.textContent = userData.info;
     }
 }
