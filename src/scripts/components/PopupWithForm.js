@@ -4,10 +4,8 @@ import {
 } from '../../pages/index.js';
 export class PopupWithForm extends Popup {
     constructor (popupSelector, { submitCallBack }) {
-      this._submitCallBack = submitCallBack;
       super(popupSelector);
-      this._popupNewElement = this._popup.classList.contains('popup_new-element');
-      this._popupNameFieldOfActivity = this._popup.classList.contains('popup_new-element');
+      this._submitCallBack = submitCallBack;
       this._editform = this._popup.querySelector('.popup__container').querySelector('.popup__edit-form');
     }
 

@@ -5,12 +5,12 @@ import fuji from '../../images/fuji.jpg';
 import great_wall from '../../images/great_wall.jpg';
 import sevan_lake from '../../images/sevan_lake.jpg';
 const mesta = [
-  { name: 'notr_dam', image: '../../images/notr_dam.jpg'},
-  { name: 'LaucaNationalPark', image: '../../images/LaucaNationalPark.jpg'},
-  { name: 'grand_canyon', image: '../../images/grand_canyon.jpg'},
-  { name: 'fuji', image: '../../images/fuji.jpg'},
-  { name: 'great_wall', image: '../../images/great_wall.jpg'},
-  { name: 'sevan_lake', image: '../../images/sevan_lake.jpg'},
+  { name: 'notr_dam', link: '../../images/notr_dam.jpg'},
+  { name: 'LaucaNationalPark', link: '../../images/LaucaNationalPark.jpg'},
+  { name: 'grand_canyon', link: '../../images/grand_canyon.jpg'},
+  { name: 'fuji', link: '../../images/fuji.jpg'},
+  { name: 'great_wall', link: '../../images/great_wall.jpg'},
+  { name: 'sevan_lake', link: '../../images/sevan_lake.jpg'},
 ]; 
 export const editButton = document.querySelector('.profile__edit-button');
 export const addButton = document.querySelector('.profile__add-button');

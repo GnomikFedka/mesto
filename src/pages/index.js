@@ -33,7 +33,7 @@ export const cardList = new Section({
   }
 }, elementsArray);
 
-const validatorOfNewElement = new FormValidator(objectForm, forms.createElement);
+const validatorOfNewElement = new FormValidator(objectForm, forms.creatElement);
 validatorOfNewElement.enableValidation();
 
 export const validatorOfActivityFieldName = new FormValidator(objectForm, forms.nameFieldOfActivity);
@@ -44,20 +44,11 @@ export const userInfo = new UserInfo();
 const formPopupNewElement = new PopupWithForm(popupNewElement,
   {
     submitCallBack: (item) => {
-      if (this._popupNewElement) {
-        forms.createElement.addEventListener('submit', (evt) => {
-          evt.preventDefault();
-          cardList.addItem(makeCard(item));
-          this.close();
-        })
-      }
-      if (this._popupNameFieldOfActivity) {
-        forms.nameFieldOfActivity.addEventListener('submit', (evt) => {
-          evt.preventDefault();
-          userInfo.setUserInfo(item);
-          this.close();
-        })
-      }
+      forms.creatElement.addEventListener('submit', (evt) => {
+        evt.preventDefault();
+        cardList.addItem(makeCard(item));
+        this.close();
+      })
     }
   }
 );
@@ -65,19 +56,11 @@ const formPopupNewElement = new PopupWithForm(popupNewElement,
 const formActivityFieldName = new PopupWithForm(popupActivityFieldName,
   {
     submitCallBack: (item) => {
-      if (this._popupNewElement) {
-        forms.createElement.addEventListener('submit', (evt) => {
-          evt.preventDefault();
-          cardList.addItem(makeCard(item));
-        })
-      }
-      if (this._popupNameFieldOfActivity) {
-        forms.nameFieldOfActivity.addEventListener('submit', (evt) => {
-          evt.preventDefault();
-          userInfo.setUserInfo(item);
-          this.close();
-        })
-      }
+      forms.nameFieldOfActivity.addEventListener('submit', (evt) => {
+        evt.preventDefault();
+        userInfo.setUserInfo(item);
+        this.close();
+      })
     }
   }
 );
