@@ -1,28 +1,26 @@
 import { Popup } from "./Popup.js";
-import {
-  validatorOfActivityFieldName
-} from '../../pages/index.js';
 export class PopupWithForm extends Popup {
     constructor (popupSelector, { submitCallBack }) {
       super(popupSelector);
       this._submitCallBack = submitCallBack;
       this._editform = this._popup.querySelector('.popup__container').querySelector('.popup__edit-form');
+      this._inputs = this._popup.querySelectorAll('input');
     }
 
     _getInputValues() {
-      const inputs = this._popup.querySelectorAll('input');
       return {
-        name: inputs[0].value,
-        info: inputs[1].value
+        name: this._inputs[0].value,
+        info: this._inputs[1].value
       }
+    }
+
+    returnInputValues() {
+      return this._getInputValues();
     }
 
     open() {
       this._popup.classList.add('popup_opened');
       document.addEventListener('keydown', this._handleEscClose);
-      if (this._popup.classList.contains('popup_new-element')) {
-        validatorOfActivityFieldName.disableSubmitButton();
-      }
     }
 
     close() {
@@ -33,6 +31,6 @@ export class PopupWithForm extends Popup {
 
     setEventListenersAndSubmit () {
       this.setEventListeners();
-      this._submitCallBack(this._getInputValues());
+      this._submitCallBack();
     }
 }

@@ -5,12 +5,12 @@ import fuji from '../../images/fuji.jpg';
 import great_wall from '../../images/great_wall.jpg';
 import sevan_lake from '../../images/sevan_lake.jpg';
 const mesta = [
-  { name: 'notr_dam', link: '../../images/notr_dam.jpg'},
-  { name: 'LaucaNationalPark', link: '../../images/LaucaNationalPark.jpg'},
-  { name: 'grand_canyon', link: '../../images/grand_canyon.jpg'},
-  { name: 'fuji', link: '../../images/fuji.jpg'},
-  { name: 'great_wall', link: '../../images/great_wall.jpg'},
-  { name: 'sevan_lake', link: '../../images/sevan_lake.jpg'},
+  { name: 'notr_dam', info: '../../images/notr_dam.jpg'},
+  { name: 'LaucaNationalPark', info: '../../images/LaucaNationalPark.jpg'},
+  { name: 'grand_canyon', info: '../../images/grand_canyon.jpg'},
+  { name: 'fuji', info: '../../images/fuji.jpg'},
+  { name: 'great_wall', info: '../../images/great_wall.jpg'},
+  { name: 'sevan_lake', info: '../../images/sevan_lake.jpg'},
 ]; 
 export const editButton = document.querySelector('.profile__edit-button');
 export const addButton = document.querySelector('.profile__add-button');
@@ -37,26 +37,26 @@ export const objectForm = {
 export const initialCards = [
   {
     name: 'Собор Парижской Богоматери',
-    link: notr_dam
+    info: notr_dam
   },
   {
     name: 'Национальный парк Лаука',
-    link: LaucaNationalPark
+    info: LaucaNationalPark
   },
   {
     name: 'Большой Каньон',
-    link: grand_canyon
+    info: grand_canyon
   },
   {
     name: 'Вулкан Фудзияма',
-    link: fuji
+    info: fuji
   },
   {
     name: 'Великая Китайская стена',
-    link: great_wall
+    info: great_wall
   },
   {
     name: 'Озеро Севан',
-    link: sevan_lake
+    info: sevan_lake
   }
 ];

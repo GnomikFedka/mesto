@@ -18,6 +18,9 @@ import { PopupWithImage } from '../scripts/components/PopupWithImage.js';
 import { PopupWithForm } from '../scripts/components/PopupWithForm.js';
 import { UserInfo } from '../scripts/components/UserInfo.js';
 
+export const cardPopup = new PopupWithImage(popupSelectorMesto);
+cardPopup.setEventListeners();
+
 function makeCard(item) {
   const card = new Card({
     data: item, handleCardClick: (name, link) => {
@@ -39,15 +42,15 @@ validatorOfNewElement.enableValidation();
 export const validatorOfActivityFieldName = new FormValidator(objectForm, forms.nameFieldOfActivity);
 validatorOfActivityFieldName.enableValidation();
 
-export const userInfo = new UserInfo();
+export const userInfo = new UserInfo(popupActivityFieldName);
 
 const formPopupNewElement = new PopupWithForm(popupNewElement,
   {
-    submitCallBack: (item) => {
+    submitCallBack: () => {
       forms.creatElement.addEventListener('submit', (evt) => {
         evt.preventDefault();
-        cardList.addItem(makeCard(item));
-        this.close();
+        cardList.addItem(makeCard(formPopupNewElement.returnInputValues()));
+        formPopupNewElement.close();
       })
     }
   }
@@ -55,28 +58,28 @@ const formPopupNewElement = new PopupWithForm(popupNewElement,
 
 const formActivityFieldName = new PopupWithForm(popupActivityFieldName,
   {
-    submitCallBack: (item) => {
+    submitCallBack: () => {
       forms.nameFieldOfActivity.addEventListener('submit', (evt) => {
         evt.preventDefault();
-        userInfo.setUserInfo(item);
-        this.close();
+        userInfo.setUserInfo();
+        formActivityFieldName.close();
       })
     }
   }
 );
 
-export const cardPopup = new PopupWithImage(popupSelectorMesto);
-cardPopup.setEventListeners();
-
 formActivityFieldName.setEventListenersAndSubmit();
 formPopupNewElement.setEventListenersAndSubmit();
 editButton.addEventListener('click', () => {
+  validatorOfActivityFieldName.resetValidation();
+  validatorOfActivityFieldName.enableSubmitButton();
+  userInfo.getUserInfo();
   formActivityFieldName.open();
-  userInfo.getUserInfo(formActivityFieldName.getInputValues());
 });
 addButton.addEventListener('click', () => {
+  validatorOfNewElement.resetValidation();
+  validatorOfNewElement.disableSubmitButton();
   formPopupNewElement.open();
 });
-
 
 cardList.renderItems(); 

@@ -4,7 +4,7 @@
   "description": "mesta",
   "main": "./src/scripts/index.js",
   "scripts": {
-    "build": "rd /s /q dist && webpack",
+    "build": "rm -rf dist && webpack --mode production",
     "dev": "webpack serve"
   },
   "repository": {
@@ -31,7 +31,7 @@
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.3",
     "postcss-loader": "^7.0.2",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.2",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   },
