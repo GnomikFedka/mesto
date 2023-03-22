@@ -10,7 +10,11 @@ import {
   editButton,
   addButton,
   elementForm,
-  popupSelectorMesto
+  popupSelectorMesto,
+  researcherName,
+  activityField,
+  inputsOfActivityFieldName,
+  inputsArray
 } from '../scripts/utils/constants.js';
 import { Card } from '../scripts/components/Card.js';
 import { FormValidator } from '../scripts/components/FormValidator.js';
@@ -42,28 +46,24 @@ validatorOfNewElement.enableValidation();
 export const validatorOfActivityFieldName = new FormValidator(objectForm, forms.nameFieldOfActivity);
 validatorOfActivityFieldName.enableValidation();
 
-export const userInfo = new UserInfo(popupActivityFieldName);
+export const userInfo = new UserInfo(researcherName, activityField);
 
 const formPopupNewElement = new PopupWithForm(popupNewElement,
   {
-    submitCallBack: () => {
-      forms.creatElement.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-        cardList.addItem(makeCard(formPopupNewElement.returnInputValues()));
-        formPopupNewElement.close();
-      })
+    submitCallBack: (evt, inputValues) => {
+      evt.preventDefault();
+      cardList.addItem(makeCard(inputValues));
+      formPopupNewElement.closeAndReset();
     }
   }
 );
 
 const formActivityFieldName = new PopupWithForm(popupActivityFieldName,
   {
-    submitCallBack: () => {
-      forms.nameFieldOfActivity.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-        userInfo.setUserInfo();
-        formActivityFieldName.close();
-      })
+    submitCallBack: (evt, inputValues) => {
+      evt.preventDefault();
+      userInfo.setUserInfo(inputValues);
+      formActivityFieldName.closeAndReset();
     }
   }
 );
@@ -73,7 +73,11 @@ formPopupNewElement.setEventListenersAndSubmit();
 editButton.addEventListener('click', () => {
   validatorOfActivityFieldName.resetValidation();
   validatorOfActivityFieldName.enableSubmitButton();
-  userInfo.getUserInfo();
+  const nameAndValue = userInfo.getUserInfo();
+  inputsOfActivityFieldName.forEach(input => inputsArray[input.name] = input.value);
+  inputsArray.profileName = nameAndValue.name;
+  inputsArray.fieldOfActivity = nameAndValue.info;
+  inputsOfActivityFieldName.forEach(input =>  input.value = inputsArray[input.name]);
   formActivityFieldName.open();
 });
 addButton.addEventListener('click', () => {

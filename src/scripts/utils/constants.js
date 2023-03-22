@@ -19,12 +19,16 @@ export const popupActivityFieldName = '.popup_name-field-of-activity';
 export const popupNewElement = '.popup_new-element';
 export const closeButtons = document.querySelectorAll('.popup__close-button');
 export const forms = document.forms;
-export const popupActivityFieldNameButton = forms.nameFieldOfActivity.querySelector('popup__button-save')
+export const popupActivityFieldNameButton = forms.nameFieldOfActivity.querySelector('popup__button-save');
+export const inputsOfActivityFieldName = Array.from(forms.nameFieldOfActivity.querySelectorAll('input'));
+export const inputsArray = {};
 export const elementsArray = '.elements';
 export const popupSelectorMesto = '.popup_foto-mesto';
 export const popupMesto = document.querySelector('.popup_foto-mesto');
 export const elementTemplate = document.querySelector('#element').content;
 export const elementForm = elementTemplate.querySelector('.elements__element');
+export const researcherName = '.profile__name';
+export const activityField = '.profile__field-of-activity';
 export const cardPopup = Object;
 export const objectForm = {
   formSelector: '.popup__edit-form',

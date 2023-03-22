@@ -3,34 +3,28 @@ export class PopupWithForm extends Popup {
     constructor (popupSelector, { submitCallBack }) {
       super(popupSelector);
       this._submitCallBack = submitCallBack;
-      this._editform = this._popup.querySelector('.popup__container').querySelector('.popup__edit-form');
-      this._inputs = this._popup.querySelectorAll('input');
+      this._editform = this._popup.querySelector('.popup__edit-form');
+      this._inputs = Array.from(this._editform.querySelectorAll('input'));
     }
 
     _getInputValues() {
-      return {
-        name: this._inputs[0].value,
-        info: this._inputs[1].value
-      }
+      const formValues = {};
+      this._inputs.forEach((input) => {
+        formValues[input.name] = input.value;
+      });
+      return formValues; 
     }
 
-    returnInputValues() {
-      return this._getInputValues();
-    }
-
-    open() {
-      this._popup.classList.add('popup_opened');
-      document.addEventListener('keydown', this._handleEscClose);
-    }
-
-    close() {
-      this._popup.classList.remove('popup_opened');
-      document.removeEventListener('keydown', this._handleEscClose);
+    closeAndReset() {
+      this.close();
       this._editform.reset();
     }
 
     setEventListenersAndSubmit () {
       this.setEventListeners();
-      this._submitCallBack();
+      this._editform.addEventListener('submit', () => {
+        console.log(this._getInputValues());
+        this._submitCallBack(this._getInputValues())
+      });
     }
 }
