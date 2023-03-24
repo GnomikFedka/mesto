@@ -50,20 +50,18 @@ export const userInfo = new UserInfo(researcherName, activityField);
 
 const formPopupNewElement = new PopupWithForm(popupNewElement,
   {
-    submitCallBack: (evt, inputValues) => {
-      evt.preventDefault();
+    submitCallBack: (inputValues) => {
       cardList.addItem(makeCard(inputValues));
-      formPopupNewElement.closeAndReset();
+      formPopupNewElement.close();
     }
   }
 );
 
 const formActivityFieldName = new PopupWithForm(popupActivityFieldName,
   {
-    submitCallBack: (evt, inputValues) => {
-      evt.preventDefault();
+    submitCallBack: (inputValues) => {
       userInfo.setUserInfo(inputValues);
-      formActivityFieldName.closeAndReset();
+      formActivityFieldName.close();
     }
   }
 );
@@ -74,15 +72,15 @@ editButton.addEventListener('click', () => {
   validatorOfActivityFieldName.resetValidation();
   validatorOfActivityFieldName.enableSubmitButton();
   const nameAndValue = userInfo.getUserInfo();
-  inputsOfActivityFieldName.forEach(input => inputsArray[input.name] = input.value);
-  inputsArray.profileName = nameAndValue.name;
-  inputsArray.fieldOfActivity = nameAndValue.info;
-  inputsOfActivityFieldName.forEach(input =>  input.value = inputsArray[input.name]);
+  inputsOfActivityFieldName.forEach((input) => {
+    input.value = nameAndValue[input.name];
+  });
   formActivityFieldName.open();
 });
 addButton.addEventListener('click', () => {
   validatorOfNewElement.resetValidation();
   validatorOfNewElement.disableSubmitButton();
+  formPopupNewElement.resetForm();
   formPopupNewElement.open();
 });
 

@@ -21,7 +21,6 @@ export const closeButtons = document.querySelectorAll('.popup__close-button');
 export const forms = document.forms;
 export const popupActivityFieldNameButton = forms.nameFieldOfActivity.querySelector('popup__button-save');
 export const inputsOfActivityFieldName = Array.from(forms.nameFieldOfActivity.querySelectorAll('input'));
-export const inputsArray = {};
 export const elementsArray = '.elements';
 export const popupSelectorMesto = '.popup_foto-mesto';
 export const popupMesto = document.querySelector('.popup_foto-mesto');

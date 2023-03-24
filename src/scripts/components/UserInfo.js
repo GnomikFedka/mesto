@@ -10,7 +10,7 @@ export class UserInfo {
         }
     }
     setUserInfo (inputValues) {
-        this._researcherName.textContent = inputValues.profileName;
-        this._activityField.textContent = inputValues.fieldOfActivity;
+        this._researcherName.textContent = inputValues.name;
+        this._activityField.textContent = inputValues.info;
     }
 }
