@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
   <title>Места</title>
-  <link rel="icon" href="https://gnomikfedka.github.io/mesto/">
+  <link rel="icon" href="data:,">
 </head>
 
 <body>
@@ -16,13 +16,16 @@
     </header>
     <main>
       <section class="profile">
-        <img class="profile__avatar" src="<%=require('./images/Avatar.png')%>" alt="аватарка пользователя">
+        <div class="profile__avatar"> 
+          <img class="profile__avatar-foto" src="" alt="аватарка пользователя">
+          <img class="profile__pen-avatar" src="<%=require('./images/pen.svg')%>" alt="изменение имени и вида деятельности">
+        </div> 
         <div class="profile__profile-info">
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <h1 class="profile__name"></h1>
           <button type="button" class="profile__edit-button">
             <img class="profile__pen" src="<%=require('./images/pen.svg')%>" alt="изменение имени и вида деятельности">
           </button>
-          <p class="profile__field-of-activity">Исследователь океана</p>
+          <p class="profile__field-of-activity"></p>
         </div>
         <button type="button" class="profile__add-button">
           <img class="profile__plus" src="<%=require('./images/plus.svg')%>" alt="добавление новой карточки">
@@ -46,7 +49,7 @@
           minlength="2" maxlength="40">
         <span class="popup__input popup__input_type_error nameInput-error"></span>
         <input class="popup__input popup__input_type_field-of-activity" id="fieldOfActivityInput" placeholder="О себе"
-          name="info" required minlength="2" maxlength="200">
+          name="about" required minlength="2" maxlength="200">
         <span class="popup__input popup__input_type_error fieldOfActivityInput-error"></span>
         <button type="submit" class="popup__button-save">Сохранить</button>
       </form>
@@ -63,12 +66,37 @@
           required minlength="2" maxlength="30">
         <span class="popup__input popup__input_type_error fotoName-input-error"></span>
         <input type="url" class="popup__input popup__input_type_field-of-activity" id="fotoUrl-input"
-          name="info" placeholder="Ссылка на фото" required>
+          name="link" placeholder="Ссылка на фото" required>
         <span class="popup__input popup__input_type_error fotoUrl-input-error"></span>
         <button type="submit" class="popup__button-save">Создать</button>
       </form>
     </div>
+  </div>  
+  <div class="popup popup_delete">
+    <div class="popup__container">
+      <button type="button" class="popup__close-button">
+        <img class="popup__close-icon" src="<%=require('./images/CloseIcon.svg')%>" alt="белый крестик">
+      </button>
+      <div class="popup__edit-form">
+        <h3 class="popup__title">Вы уверены?</h3>
+        <button type="button" class="popup__button-save popup__button-delete">Да</button>
+      </div>
+    </div>
   </div>
+  <div class="popup popup_avatar">
+    <div class="popup__container">
+      <button type="button" class="popup__close-button">
+        <img class="popup__close-icon" src="<%=require('./images/CloseIcon.svg')%>" alt="белый крестик">
+      </button>
+      <form class="popup__edit-form" id="create-element" name="changeAvatar" novalidate>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <input type="url" class="popup__input popup__input_type_field-of-activity" id="fotoUrl-input"
+          name="avatar" placeholder="Ссылка на фото" required>
+        <span class="popup__input popup__input_type_error fotoUrl-input-error"></span>
+        <button type="submit" class="popup__button-save">Сохранить</button>
+      </form>
+    </div>
+  </div>  
   <div class="popup popup_foto-mesto">
     <div class="popup__container popup__container_foto-mesto">
       <button type="button" class="popup__close-button">
@@ -82,7 +110,10 @@
     <div class="elements__element">
       <img class="elements__mask-group">
       <h2 class="elements__text"></h2>
-      <button type="button" class="elements__button-like"></button>
+      <div class="elements__likes"> 
+        <button type="button" class="elements__button-like"></button>
+        <p class="elements__likes-quantity"></p>
+      </div>
       <button type="button" class="elements__delete-button"></button>
     </div>
   </template>

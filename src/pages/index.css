@@ -6,10 +6,12 @@
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
 @import url(../blocks/profile/__avatar/profile__avatar.css);
+@import url(../blocks/profile/__avatar-foto/profile__avatar-foto.css);
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
 @import url(../blocks/profile/__field-of-activity/profile__field-of-activity.css);
 @import url(../blocks/profile/__name/profile__name.css);
 @import url(../blocks/profile/__pen/profile__pen.css);
+@import url(../blocks/profile/__pen-avatar/profile__pen-avatar.css); 
 @import url(../blocks/profile/__plus/profile__plus.css);
 @import url(../blocks/profile/__profile-info/profile__profile-info.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
@@ -30,10 +32,13 @@
 @import url(../blocks/popup/__text/popup__text.css);
 @import url(../blocks/elements/elements.css);
 @import url(../blocks/elements/__delete-button/elements__delete-button.css);
+@import url(../blocks/elements/__delete-button/_hidden/elements__delete-button_hidden.css);
 @import url(../blocks/elements/__button-like/elements__button-like.css);
 @import url(../blocks/elements/__button-like/_active/elements__button-like_active.css);
 @import url(../blocks/elements/__element/elements__element.css);
 @import url(../blocks/elements/__mask-group/elements__mask-group.css);
 @import url(../blocks/elements/__text/elements__text.css);
+@import url(../blocks/elements/__likes/elements__likes.css);
+@import url(../blocks/elements/__likes-quantity/elements__likes-quantity.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__text/footer__text.css);

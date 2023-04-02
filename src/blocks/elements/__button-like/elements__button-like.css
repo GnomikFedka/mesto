@@ -1,6 +1,5 @@
 .elements__button-like {
     display: flex;
-    align-items: center;
     justify-content: center;
     align-self: center;
     border: none;
@@ -8,7 +7,7 @@
     width: 22px;
     height: 19px;
     background-image: url(../../../images/like.svg);
-    margin: 25px 18px 31px 30px;
+    margin: 0;
 }
 
 .elements__button-like:hover {

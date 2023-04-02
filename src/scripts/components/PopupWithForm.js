@@ -23,7 +23,7 @@ export class PopupWithForm extends Popup {
       this.setEventListeners();
       this._editForm.addEventListener('submit', (evt) => {
         evt.preventDefault();
-        this._submitCallBack(this._getInputValues())
+        this._submitCallBack(this._getInputValues());
       });
     }
 }
