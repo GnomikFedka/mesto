@@ -1,5 +1,7 @@
 export class Api {
-    constructor({apiGetUserInfo, apiGetCards, apiSetUser, apiSetAvatar, apiAddCard, apiAddLike, apiRemoveLike, apiGetLikes, apiRenderError}) {
+    constructor({apiGetUserInfo, apiGetCards, apiSetUser, apiSetAvatar, apiAddCard, apiAddLike, apiRemoveLike, apiGetLikes,
+       apiRenderError, apiChangeButonTextOfFormActivityFieldName, apiChangeButonTextOfFormPopupAvatar,
+       apiChangeButonTextOfFormPopupNewElement}) {
         this._apiGetUserInfo = apiGetUserInfo;
         this._apiGetCards = apiGetCards;
         this._apiSetUser = apiSetUser;
@@ -9,6 +11,9 @@ export class Api {
         this._apiRemoveLike = apiRemoveLike;
         this._apiGetLikes = apiGetLikes;
         this._apiRenderError = apiRenderError;
+        this._apiChangeButonTextOfFormActivityFieldName = apiChangeButonTextOfFormActivityFieldName;
+        this._apiChangeButonTextOfFormPopupAvatar = apiChangeButonTextOfFormPopupAvatar;
+        this._apiChangeButonTextOfFormPopupNewElement = apiChangeButonTextOfFormPopupNewElement;
     }
 
     apiGetUserJson() {
@@ -73,7 +78,7 @@ export class Api {
         this._apiRenderError(`Ошибка: ${err}`)
       })
       .finally(() => {
-        document.querySelector('.popup_name-field-of-activity').querySelector('.popup__button-save').textContent = 'Сохранить'; 
+        this._apiChangeButonTextOfFormActivityFieldName();
       }) 
     }
 
@@ -99,8 +104,8 @@ export class Api {
         this._apiRenderError(`Ошибка: ${err}`)
       })
       .finally(() => {
-        document.querySelector('.popup_avatar').querySelector('.popup__button-save').textContent = 'Сохранить'; 
-      })  
+        this._apiChangeButonTextOfFormPopupAvatar();
+      }) 
     }
 
     apiAddCardJson(card) {
@@ -125,7 +130,7 @@ export class Api {
           this._apiRenderError(`Ошибка: ${err}`)
         })
         .finally(() => {
-          document.querySelector('.popup_new-element').querySelector('.popup__button-save').textContent = 'Создать'; 
+          this._apiChangeButonTextOfFormPopupNewElement();
         })   
     }
 
@@ -148,8 +153,8 @@ export class Api {
       })
     }
 
-    apiAddLikeJson(card, likeOwner) {
-      fetch(`https://mesto.nomoreparties.co/v1/cohort-63/cards/${card._id}/likes`, {
+    apiAddLikeJson(cardData, card, likeOwner) {
+      fetch(`https://mesto.nomoreparties.co/v1/cohort-63/cards/${cardData._id}/likes`, {
         method: 'PUT',
         headers: {
           authorization: '9747cacb-cd33-472a-8f54-1926cc52a8f6',
@@ -164,15 +169,15 @@ export class Api {
         else return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((data) => {
-        this._apiAddLike(data);
+        this._apiAddLike(data, card);
       })
       .catch((err) => {
         this._apiRenderError(`Ошибка: ${err}`)
       })
     }
 
-    apiRemoveLikeJson(card) {
-      fetch(`https://mesto.nomoreparties.co/v1/cohort-63/cards/${card._id}/likes`, {
+    apiRemoveLikeJson(cardData, card) {
+      fetch(`https://mesto.nomoreparties.co/v1/cohort-63/cards/${cardData._id}/likes`, {
         method: 'DELETE',
         headers: {
           authorization: '9747cacb-cd33-472a-8f54-1926cc52a8f6',
@@ -186,7 +191,7 @@ export class Api {
         else return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((data) => {
-        this._apiRemoveLike(data);
+        this._apiRemoveLike(data, card);
       })
       .catch((err) => {
         this._apiRenderError(`Ошибка: ${err}`)

@@ -6,15 +6,12 @@
     height: 26px;
     border-color: #FFFFFF;
     align-self: center;
-    opacity: 0;
     margin: 0;
+    opacity: 0;
   }
 
 .profile__pen-avatar:hover {
     opacity: 1;
     cursor: pointer;
-}
-.profile__pen-avatar:hover ~.profile__avatar-foto {
-    opacity: 0.2;
 }
   

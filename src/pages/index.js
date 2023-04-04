@@ -9,7 +9,6 @@ import {
   popupAvatar,
   editButton,
   addButton,
-  saveButton,
   elementForm,
   popupSelectorMesto,
   popupDeleteConfirmation,
@@ -62,39 +61,32 @@ const data = new Api({
   apiAddCard: (data) => {
     cardList.addItem(makeCard(data));
   },
-  apiAddLike: (card) => {
-    //return data.likes;
-    console.log(card);
-    //console.log(card.likes);
-   // data.apiGetLikesJson(card);
-    //data.apiGetLikesJson(card);
-    setArrayOfLikes(card);
+  apiAddLike: (cardData, card) => {
+    card.changeLikesQuantity(cardData);
   },
-  apiRemoveLike: (card) => {
-    //return data.likes;
-    console.log(card);
-    //console.log(card.likes);
-   // data.apiGetLikesJson(card);
-    //data.apiGetLikesJson(card);
-    setArrayOfLikes(card);
+  apiRemoveLike: (cardData, card) => {
+    card.changeLikesQuantity(cardData);
   },
   apiRenderError: (err) => {
     console.log(err);
+  },
+  apiChangeButonTextOfFormActivityFieldName: () => {
+    formActivityFieldName.changeButtonText(false, 'Сохранить');
+  },
+  apiChangeButonTextOfFormPopupAvatar: () => {
+    formPopupAvatar.changeButtonText(false, 'Сохранить');
+  },
+  apiChangeButonTextOfFormPopupNewElement: () => {
+    formPopupNewElement.changeButtonText(false, 'Создать');
   }
 });
-
-function setArrayOfLikes(data) {
-  const id = '.'+data._id;
-  console.log(id);
-  document.querySelector(id).textContent = data.likes.length;
-}
 
 function makeCard(item) {
   const card = new Card({
     cardData: item, handleCardClick: (name, link) => {
       cardPopup.open(link, name);
     },
-    addLikeCard: (cardData) => {
+    addLikeCard: (card) => {
       const likeOwner = {
         about: document.querySelector(activityField).textContent,
         avatar: document.querySelector(avatar).src,
@@ -102,10 +94,10 @@ function makeCard(item) {
         name: document.querySelector(researcherName).textContent,
        _id: "79ef0491cfddf3bd0ccdf2ca"
       }      
-      data.apiAddLikeJson(cardData, likeOwner);
+      data.apiAddLikeJson(card._cardData, card, likeOwner);
     },
-    removeLikeCard: (cardData) => {
-      data.apiRemoveLikeJson(cardData);
+    removeLikeCard: (card) => {
+      data.apiRemoveLikeJson(card._cardData, card);
     },
     openConfirmForm: (newElement, cardData) => {
       deleteCardPopup.setElementAndData(newElement, cardData);
@@ -130,7 +122,7 @@ validatorOfAvatar.enableValidation();
 const formPopupAvatar = new PopupWithForm(popupAvatar,
   {
     submitCallBack: (inputValues) => {
-      document.querySelector(popupAvatar).querySelector(saveButton).textContent = 'Сохранение...';
+      formPopupAvatar.changeButtonText(true);
       data.apiSetAvatarJson(userInfo.setAvatarInfo(inputValues));      
       formPopupAvatar.close();
     }
@@ -140,7 +132,7 @@ const formPopupAvatar = new PopupWithForm(popupAvatar,
 const formPopupNewElement = new PopupWithForm(popupNewElement,
   {
     submitCallBack: (inputValues) => { 
-      document.querySelector(popupNewElement).querySelector(saveButton).textContent = 'Сохранение...';
+      formPopupNewElement.changeButtonText(true);
       data.apiAddCardJson(inputValues);   
       formPopupNewElement.close();
     }
@@ -150,7 +142,7 @@ const formPopupNewElement = new PopupWithForm(popupNewElement,
 const formActivityFieldName = new PopupWithForm(popupActivityFieldName,
   {
     submitCallBack: (inputValues) => {
-      document.querySelector(popupActivityFieldName).querySelector(saveButton).textContent = 'Сохранение...';
+      formActivityFieldName.changeButtonText(true);
       data.apiSetUserJson(userInfo.setUserInfo(inputValues));    
       formActivityFieldName.close();
     }
@@ -161,7 +153,8 @@ formActivityFieldName.setEventListenersAndSubmit();
 formPopupNewElement.setEventListenersAndSubmit();
 formPopupAvatar.setEventListenersAndSubmit();
 deleteCardPopup.setEventListeners();
-editButton.addEventListener('click', () => {
+editButton.addEventListener('click', openUserPopup);
+function openUserPopup() {
   validatorOfActivityFieldName.resetValidation();
   validatorOfActivityFieldName.enableSubmitButton();
   const nameAndValue = userInfo.getUserInfo();
@@ -169,24 +162,21 @@ editButton.addEventListener('click', () => {
     input.value = nameAndValue[input.name];
   });
   formActivityFieldName.open();
-});
-addButton.addEventListener('click', () => {
+}
+
+addButton.addEventListener('click', openNewCardPopup);
+function openNewCardPopup() {
   validatorOfNewElement.resetValidation();
   validatorOfNewElement.disableSubmitButton();
   formPopupNewElement.resetForm();
   formPopupNewElement.open();
-});
+}
 
+avatarFoto.addEventListener('click', changeAvatar);
+avatarPen.addEventListener('click', changeAvatar);
 function changeAvatar () {
   validatorOfAvatar.resetValidation();
   validatorOfAvatar.disableSubmitButton();
   formPopupAvatar.resetForm();
   formPopupAvatar.open();
 }
-avatarFoto.addEventListener('click', () => {
-  changeAvatar();
-});
-/*
-avatarPen.addEventListener('click', () => {
-  changeAvatar();
-}); */

@@ -23,17 +23,18 @@ export class Card {
     return this._elementForm.cloneNode(true);
   }
 
+  changeLikesQuantity(cardData) {
+    this._likesQuantity.textContent = cardData.likes.length;    
+  }
+
   _setEventlisteners = () => {
-    console.log(this._likesQuantity);
     this._likeButton.addEventListener('click', (evt) => {
       evt.target.classList.toggle('elements__button-like_active');
       if (this._likeButton.classList.contains('elements__button-like_active') === false) {
-        this._removeLikeCard(this._cardData);
-        //this._likesQuantity.textContent = this._likeArray.length;     
+        this._removeLikeCard(this); 
       }
       else {
-        this._addLikeCard(this._cardData);
-       //this._likesQuantity.textContent = this._likeArray.length;   
+        this._addLikeCard(this); 
       }
     });
     this._deleteButton.addEventListener('click', () => { 
@@ -57,8 +58,6 @@ export class Card {
     this._cardFoto.src = this._imageURL;
     this._cardFoto.alt = this._fotoName;
     this._likesQuantity.textContent = this._likeArray.length;
-    this._likesQuantity.classList.add(this._cardData._id);
-    //this._likesQuantity.id = this._cardData._id;
     this._setEventlisteners();
     return this._newElement;
   }

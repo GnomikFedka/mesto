@@ -4,12 +4,3 @@
     border-radius: 50%;
     align-self: center;
 }
-
-.profile__avatar-foto:hover {
-    opacity: 0.2;
-    cursor: pointer;
-}
-
-.profile__avatar-foto:hover ~.profile__pen-avatar {
-    opacity: 1;
-}
