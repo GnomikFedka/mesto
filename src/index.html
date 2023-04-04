@@ -17,7 +17,7 @@
     <main>
       <section class="profile">
         <div class="profile__avatar"> 
-          <img class="profile__avatar-foto" src="" alt="аватарка пользователя">
+          <img class="profile__avatar-foto" src="<%=require('./images/Avatar.png')%>" alt="аватарка пользователя">
           <div class="profile__overlay">
             <img class="profile__pen-avatar" src="<%=require('./images/pen.svg')%>" alt="изменение имени и вида деятельности">
           </div>
@@ -90,11 +90,11 @@
       <button type="button" class="popup__close-button">
         <img class="popup__close-icon" src="<%=require('./images/CloseIcon.svg')%>" alt="белый крестик">
       </button>
-      <form class="popup__edit-form" id="create-element" name="changeAvatar" novalidate>
+      <form class="popup__edit-form" id="changeAvatar" name="changeAvatar" novalidate>
         <h3 class="popup__title">Обновить аватар</h3>
-        <input type="url" class="popup__input popup__input_type_field-of-activity" id="fotoUrl-input"
+        <input type="url" class="popup__input popup__input_type_field-of-activity" id="avatarFoto"
           name="avatar" placeholder="Ссылка на фото" required>
-        <span class="popup__input popup__input_type_error fotoUrl-input-error"></span>
+        <span class="popup__input popup__input_type_error avatarFoto-error"></span>
         <button type="submit" class="popup__button-save">Сохранить</button>
       </form>
     </div>
