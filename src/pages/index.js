@@ -1,3 +1,5 @@
+let userId = null;
+let userLikeData = null;
 import { Section } from '../scripts/components/Section.js';
 import '../pages/index.css';
 import {
@@ -18,8 +20,6 @@ import {
   avatarFoto,
   avatarPen,
   headers,
-  userId,
-  userLikeData,
   inputsOfActivityFieldName
 } from '../scripts/utils/constants.js';
 import { Card } from '../scripts/components/Card.js';
@@ -49,7 +49,7 @@ const deleteCardPopup = new PopupWithConfirmation({
       deleteCardPopup.close();
     })
     .catch((err) => {
-      console.log(`Ошибка: ${err}`)
+      console.log(`Ошибка: ${err}`);
     });
   }
 }, popupDeleteConfirmation);
@@ -62,14 +62,6 @@ function makeCard(item) {
       cardPopup.open(link, name);
     },
     addLikeCard: (card) => {
-      api.apiGetUserJson()
-      .then((userData) => {
-        console.log(userData);
-        userLikeData = userData;
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`)
-      })
       api.apiAddLikeJson(card, userLikeData)
       .then((cardData) => {
         card.changeLikesQuantity(cardData);
@@ -100,15 +92,15 @@ Promise.all([
   api.apiGetCardsJson()
 ])
 .then(([userData, cardsData]) => {
-  console.log(userData._id);
+  userLikeData = userData;
   userId = userData._id;
-  console.log(userId);
   userInfo.setStartUserData(userData);
   cardList.renderItems(cardsData);
 })
 .catch((err) => {
   console.log(`Ошибка: ${err}`)
 })
+
 
 const validatorOfNewElement = new FormValidator(objectForm, forms.creatElement);
 validatorOfNewElement.enableValidation();
@@ -125,6 +117,7 @@ const formPopupAvatar = new PopupWithForm(popupAvatar,
       formPopupAvatar.changeButtonText(true);
       api.apiSetAvatarJson(userInfo.setAvatarInfo(inputValues))
       .then((urlAvatar) => {
+        userLikeData = urlAvatar;
         userInfo.setAvatarFoto(urlAvatar);
         formPopupAvatar.close(); 
       })
@@ -163,6 +156,7 @@ const formActivityFieldName = new PopupWithForm(popupActivityFieldName,
       formActivityFieldName.changeButtonText(true);
       api.apiSetUserJson(userInfo.setUserInfo(inputValues))
       .then((userNameAndFieldOfActivity) => {
+        userLikeData = userNameAndFieldOfActivity;
         userInfo.setNameAndActivityField(userNameAndFieldOfActivity); 
         formActivityFieldName.close();
       })
