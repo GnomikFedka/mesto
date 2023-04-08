@@ -19,6 +19,7 @@ export class UserInfo {
         this._researcherName.textContent = apiObjectData.name;
         this._activityField.textContent = apiObjectData.about;
     }
+
     setAvatarInfo (inputValues) {
         return {
             avatar: inputValues.avatar
@@ -31,6 +32,7 @@ export class UserInfo {
             about: this._activityField.textContent
         }
     }
+
     setUserInfo (inputValues) {
         return {
             name: inputValues.name,

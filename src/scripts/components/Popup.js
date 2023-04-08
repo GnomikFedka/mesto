@@ -1,22 +1,12 @@
 export class Popup {
     constructor(popupSelector) {
       this._popup = document.querySelector(popupSelector);
-      this._saveButton = this._popup.querySelector('.popup__button-save');
       this._closeButton = this._popup.querySelector('.popup__container').querySelector('.popup__close-button');
       this._handleEscClose = this._handleEscClose.bind(this);
     }
     open() {
       this._popup.classList.add('popup_opened');
       document.addEventListener('keydown', this._handleEscClose);
-    }
-
-    changeButtonText(isLoading, buttonText) {
-      if (isLoading) {
-        this._saveButton.textContent = 'Сохранение...';
-      } 
-      else {
-        this._saveButton.textContent = buttonText;
-      }
     }
 
     close() {

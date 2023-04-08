@@ -20,7 +20,12 @@ export const activityField = '.profile__field-of-activity';
 export const avatar = '.profile__avatar-foto';
 export const avatarFoto = document.querySelector('.profile__overlay');
 export const avatarPen = document.querySelector('.profile__pen-avatar');
-export const arrayOfLikes = Object;
+export const userLikeData = Object;
+export const headers = {
+  authorization: '9747cacb-cd33-472a-8f54-1926cc52a8f6',
+  'Content-Type': 'application/json'
+};
+export let userId = null;
 export const objectForm = {
   formSelector: '.popup__edit-form',
   inputSelector: 'input.popup__input',

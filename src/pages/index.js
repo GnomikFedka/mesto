@@ -17,6 +17,9 @@ import {
   avatar,
   avatarFoto,
   avatarPen,
+  headers,
+  userId,
+  userLikeData,
   inputsOfActivityFieldName
 } from '../scripts/utils/constants.js';
 import { Card } from '../scripts/components/Card.js';
@@ -39,47 +42,19 @@ cardPopup.setEventListeners();
 export const userInfo = new UserInfo(researcherName, activityField, avatar);
 
 const deleteCardPopup = new PopupWithConfirmation({
-  deleteClick: (newElement, cardData) => {
-    newElement.remove();
-    data.apiDeleteCardJson(cardData);
+  deleteClick: (card, cardData) => {
+    api.apiDeleteCardJson(card, cardData)
+    .then(() => {
+      card.deleteCard();
+      deleteCardPopup.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`)
+    });
   }
 }, popupDeleteConfirmation);
 
-const data = new Api({
-  apiGetUserInfo: (data) => {
-    userInfo.setStartUserData(data);
-  },
-  apiGetCards: (data) => {
-    cardList.renderItems(data); 
-  },
-  apiSetUser: (data) => {
-    userInfo.setNameAndActivityField(data); 
-  },
-  apiSetAvatar: (data) => {
-    userInfo.setAvatarFoto(data); 
-  },
-  apiAddCard: (data) => {
-    cardList.addItem(makeCard(data));
-  },
-  apiAddLike: (cardData, card) => {
-    card.changeLikesQuantity(cardData);
-  },
-  apiRemoveLike: (cardData, card) => {
-    card.changeLikesQuantity(cardData);
-  },
-  apiRenderError: (err) => {
-    console.log(err);
-  },
-  apiChangeButonTextOfFormActivityFieldName: () => {
-    formActivityFieldName.changeButtonText(false, 'Сохранить');
-  },
-  apiChangeButonTextOfFormPopupAvatar: () => {
-    formPopupAvatar.changeButtonText(false, 'Сохранить');
-  },
-  apiChangeButonTextOfFormPopupNewElement: () => {
-    formPopupNewElement.changeButtonText(false, 'Создать');
-  }
-});
+const api = new Api(headers);
 
 function makeCard(item) {
   const card = new Card({
@@ -87,28 +62,53 @@ function makeCard(item) {
       cardPopup.open(link, name);
     },
     addLikeCard: (card) => {
-      const likeOwner = {
-        about: document.querySelector(activityField).textContent,
-        avatar: document.querySelector(avatar).src,
-        cohort: "cohort-63",
-        name: document.querySelector(researcherName).textContent,
-       _id: "79ef0491cfddf3bd0ccdf2ca"
-      }      
-      data.apiAddLikeJson(card._cardData, card, likeOwner);
+      api.apiGetUserJson()
+      .then((userData) => {
+        console.log(userData);
+        userLikeData = userData;
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`)
+      })
+      api.apiAddLikeJson(card, userLikeData)
+      .then((cardData) => {
+        card.changeLikesQuantity(cardData);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`)
+      });
     },
     removeLikeCard: (card) => {
-      data.apiRemoveLikeJson(card._cardData, card);
+      api.apiRemoveLikeJson(card)
+      .then((cardData) => {
+        card.changeLikesQuantity(cardData);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`)
+      });
     },
-    openConfirmForm: (newElement, cardData) => {
-      deleteCardPopup.setElementAndData(newElement, cardData);
+    openConfirmForm: (card, cardData) => {
+      deleteCardPopup.setElementAndData(card, cardData);
       deleteCardPopup.open();
     }
-  }, elementForm);
+  }, elementForm, userId);
   return card.createCard();
 }
 
-data.apiGetUserJson();
-data.apiGetCardsJson();
+Promise.all([
+  api.apiGetUserJson(),
+  api.apiGetCardsJson()
+])
+.then(([userData, cardsData]) => {
+  console.log(userData._id);
+  userId = userData._id;
+  console.log(userId);
+  userInfo.setStartUserData(userData);
+  cardList.renderItems(cardsData);
+})
+.catch((err) => {
+  console.log(`Ошибка: ${err}`)
+})
 
 const validatorOfNewElement = new FormValidator(objectForm, forms.creatElement);
 validatorOfNewElement.enableValidation();
@@ -123,8 +123,17 @@ const formPopupAvatar = new PopupWithForm(popupAvatar,
   {
     submitCallBack: (inputValues) => {
       formPopupAvatar.changeButtonText(true);
-      data.apiSetAvatarJson(userInfo.setAvatarInfo(inputValues));      
-      formPopupAvatar.close();
+      api.apiSetAvatarJson(userInfo.setAvatarInfo(inputValues))
+      .then((urlAvatar) => {
+        userInfo.setAvatarFoto(urlAvatar);
+        formPopupAvatar.close(); 
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`)
+      })
+      .finally(() => {
+        formPopupAvatar.changeButtonText(false, 'Сохранить');
+      }) ;
     }
   }
 );
@@ -133,8 +142,17 @@ const formPopupNewElement = new PopupWithForm(popupNewElement,
   {
     submitCallBack: (inputValues) => { 
       formPopupNewElement.changeButtonText(true);
-      data.apiAddCardJson(inputValues);   
-      formPopupNewElement.close();
+      api.apiAddCardJson(inputValues)
+      .then((cardData) => {
+        cardList.addItem(makeCard(cardData)); 
+        formPopupNewElement.close();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`)
+      })
+      .finally(() => {
+        formPopupNewElement.changeButtonText(false, 'Создать');
+      });  
     }
   }
 );
@@ -143,8 +161,17 @@ const formActivityFieldName = new PopupWithForm(popupActivityFieldName,
   {
     submitCallBack: (inputValues) => {
       formActivityFieldName.changeButtonText(true);
-      data.apiSetUserJson(userInfo.setUserInfo(inputValues));    
-      formActivityFieldName.close();
+      api.apiSetUserJson(userInfo.setUserInfo(inputValues))
+      .then((userNameAndFieldOfActivity) => {
+        userInfo.setNameAndActivityField(userNameAndFieldOfActivity); 
+        formActivityFieldName.close();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`)
+      })
+      .finally(() => {
+        formActivityFieldName.changeButtonText(false, 'Сохранить');
+      });    
     }
   }
 );
@@ -168,7 +195,6 @@ addButton.addEventListener('click', openNewCardPopup);
 function openNewCardPopup() {
   validatorOfNewElement.resetValidation();
   validatorOfNewElement.disableSubmitButton();
-  formPopupNewElement.resetForm();
   formPopupNewElement.open();
 }
 
@@ -177,6 +203,5 @@ avatarPen.addEventListener('click', changeAvatar);
 function changeAvatar () {
   validatorOfAvatar.resetValidation();
   validatorOfAvatar.disableSubmitButton();
-  formPopupAvatar.resetForm();
   formPopupAvatar.open();
 }
