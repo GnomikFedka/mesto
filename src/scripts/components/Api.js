@@ -71,11 +71,11 @@ export class Api {
       })
     }
 
-    apiAddLikeJson(card, userLikeData) {
+    apiAddLikeJson(card) {
       return fetch(`https://mesto.nomoreparties.co/v1/cohort-63/cards/${card._cardData._id}/likes`, {
         method: 'PUT',
         headers: this._headers,
-        body: JSON.stringify(userLikeData)
+        body: JSON.stringify()
       })
       .then(res => {
         return this._getResponseData(res);

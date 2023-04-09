@@ -1,5 +1,4 @@
 let userId = null;
-let userLikeData = null;
 import { Section } from '../scripts/components/Section.js';
 import '../pages/index.css';
 import {
@@ -62,7 +61,7 @@ function makeCard(item) {
       cardPopup.open(link, name);
     },
     addLikeCard: (card) => {
-      api.apiAddLikeJson(card, userLikeData)
+      api.apiAddLikeJson(card)
       .then((cardData) => {
         card.changeLikesQuantity(cardData);
       })
@@ -92,7 +91,6 @@ Promise.all([
   api.apiGetCardsJson()
 ])
 .then(([userData, cardsData]) => {
-  userLikeData = userData;
   userId = userData._id;
   userInfo.setStartUserData(userData);
   cardList.renderItems(cardsData);
@@ -115,9 +113,8 @@ const formPopupAvatar = new PopupWithForm(popupAvatar,
   {
     submitCallBack: (inputValues) => {
       formPopupAvatar.changeButtonText(true);
-      api.apiSetAvatarJson(userInfo.setAvatarInfo(inputValues))
+      api.apiSetAvatarJson(inputValues)
       .then((urlAvatar) => {
-        userLikeData = urlAvatar;
         userInfo.setAvatarFoto(urlAvatar);
         formPopupAvatar.close(); 
       })
@@ -154,9 +151,8 @@ const formActivityFieldName = new PopupWithForm(popupActivityFieldName,
   {
     submitCallBack: (inputValues) => {
       formActivityFieldName.changeButtonText(true);
-      api.apiSetUserJson(userInfo.setUserInfo(inputValues))
+      api.apiSetUserJson(inputValues)
       .then((userNameAndFieldOfActivity) => {
-        userLikeData = userNameAndFieldOfActivity;
         userInfo.setNameAndActivityField(userNameAndFieldOfActivity); 
         formActivityFieldName.close();
       })

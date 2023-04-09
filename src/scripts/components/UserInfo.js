@@ -20,23 +20,10 @@ export class UserInfo {
         this._activityField.textContent = apiObjectData.about;
     }
 
-    setAvatarInfo (inputValues) {
-        return {
-            avatar: inputValues.avatar
-        }
-    }
-
     getUserInfo () {
         return { 
             name: this._researcherName.textContent,
             about: this._activityField.textContent
-        }
-    }
-
-    setUserInfo (inputValues) {
-        return {
-            name: inputValues.name,
-            about: inputValues.about
         }
     }
 }
